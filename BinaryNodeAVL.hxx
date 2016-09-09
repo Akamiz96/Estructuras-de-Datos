@@ -110,7 +110,7 @@ void BinaryNodeAVL<T>::erase(T& val){
 	if(node->getRight() != nullptr && node->getLeft() != nullptr){
 		if(val > this->data){
 			T max = node->getLeft()->max()->getData();
-			this->searchFather(max)->erase(max);	
+			this->searchFather(max)->erase(max);
 			this->right->setData(max);
 		}
 		if(val < this->data){
@@ -294,7 +294,6 @@ bool BinaryNodeAVL<T>::balanceCheck(BinaryNodeAVL<T>* father, BinaryNodeAVL<T>*&
 		}
 	}
 	if(dif <= -2){
-		std::cout << "-2: -> " << this->data << "-->"<<father->getData() << "-->" << root->getData()<< std::endl;
 		int leftH, rightH;
 		if(this->right->getLeft() == nullptr)
 			leftH = -1;
