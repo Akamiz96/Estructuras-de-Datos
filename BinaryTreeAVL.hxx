@@ -84,6 +84,9 @@ bool BinaryTreeAVL::eraseRoot(){
 bool BinaryTreeAVL::search(NodoVocabulario& n){
 	return (this->root->search(n) == nullptr) ? false : true;
 }
+BinaryNodeAVL* search(char val){
+	return this->root->search(val);
+}
 bool BinaryTreeAVL::searchFather(NodoVocabulario& n){
 	return (this->root->searchFather(n) == nullptr) ? false : true;
 }

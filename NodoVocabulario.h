@@ -14,6 +14,9 @@ public:
   void setPalabras (std::map<std::string, int> palabrasNodo);
   char getLetra ();
   std::map<std::string, int> getPalabras();
+  void insertarPalabra(std::string palabra);
+private:
+  unsigned int calcularPuntaje(std::string palabra);
 };
 #include "NodoVocabulario.hxx"
 #endif

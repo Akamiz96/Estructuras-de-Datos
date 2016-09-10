@@ -17,6 +17,7 @@ class BinaryTreeAVL{
 		bool insert(NodoVocabulario& n);
 		bool erase(NodoVocabulario& n);
 		bool search(NodoVocabulario& n);
+		BinaryNodeAVL* search(char val);
 		bool searchFather(NodoVocabulario& n);
 		int treeHeight();
 		void updateHeight();

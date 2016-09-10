@@ -5,6 +5,7 @@ void ayuda( std::string );
 
 int main()
 {
+  BinaryTreeAVL tree;
   bool exit = false;
   std::string comando;
   do
@@ -96,4 +97,13 @@ void ayuda( std::string comando )
           std::cout << "\tscore [palabra]" << std::endl;
           std::cout << "\texit" << std::endl;
         }
+}
+void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
+  BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
+  if(nodoLetra != nullptr){
+
+  }
+  else{
+
+  }
 }
