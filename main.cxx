@@ -2,13 +2,18 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include "BinaryTreeAVL.h"
+#include "NodoVocabulario.h"
 
 void ayuda( std::string );
-void leerArchivo( std::string );
+void leerArchivo( BinaryTreeAVL&, std::string );
+void insertarPalabra(BinaryTreeAVL&, std::string );
+int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
 
 int main()
 {
+  BinaryTreeAVL tree;
   bool exit = false;
   std::string comando;
   do
@@ -43,7 +48,7 @@ int main()
           {
             std::cout << " init " << std::endl;
             //TODO funcion init
-            leerArchivo( comando );
+            leerArchivo( tree, comando );
             std::cout << std::endl;
           }
           else
@@ -102,21 +107,57 @@ void ayuda( std::string comando )
           std::cout << "\texit" << std::endl;
         }
 }
-
-void leerArchivo( std::string comando )
+void leerArchivo( BinaryTreeAVL& tree, std::string comando )
 {
   std::string nombreArc, linea;
   nombreArc = comando.substr( comando.find( " " ) + 1 );
   std::ifstream archivo( nombreArc.c_str( ) );
-  std::cout << nombreArc << std::endl;
   if( archivo.is_open() )
   {
     while( !archivo.eof() )
     {
       archivo >> linea;
-      std::cout << linea << std::endl;
+      std::transform(linea.begin(),linea.end(),linea.begin(),::tolower);
+      insertarPalabra(tree , linea);
     }
   }
+}
+void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
+  if(validarPalabra(palabra) == 1){
+    BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
+    if(nodoLetra != nullptr){
+      nodoLetra->getData().insertarPalabra(palabra);
+    }
+    else{
+      NodoVocabulario* nodo = new NodoVocabulario(palabra[0]);
+      tree.insert(*nodo);
+      nodo->insertarPalabra(palabra);
+    }
+  }
+  else{
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "ERROR" << std::endl;
+    std::cout << "La palabra: " << palabra << " tiene caracteres invalidos." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+  }
+}
+int validarPalabra(std::string palabra)
+{
+    int verificado=0;
+    for(unsigned int i=0;i<palabra.size();i++)
+    {
+        char caracter=palabra[i];
+        if(caracter>=65&&caracter<=90||caracter>=97&&caracter<=122)
+            verificado=1;
+        else
+        {
+            verificado=0;
+            break;
+        }
+
+    }
+    return verificado;
+
 }
 
 std::string voltearPalabra(std::string palabra)

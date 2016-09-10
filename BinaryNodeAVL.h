@@ -26,6 +26,7 @@ class BinaryNodeAVL{
 		bool insert (NodoVocabulario& nval);
 		void erase (NodoVocabulario& val);
 		BinaryNodeAVL* search(NodoVocabulario& val);
+		BinaryNodeAVL* search(char val);
 		BinaryNodeAVL* searchFather(NodoVocabulario& val);
 		int nodeHeight();
 		void updateHeight();
