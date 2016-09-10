@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <algorithm>
 
 void ayuda( std::string );
+void leerArchivo( std::string );
 
 int main()
 {
@@ -39,6 +42,7 @@ int main()
           {
             std::cout << " init " << std::endl;
             //TODO funcion init
+            leerArchivo( comando );
             std::cout << std::endl;
           }
           else
@@ -96,4 +100,20 @@ void ayuda( std::string comando )
           std::cout << "\tscore [palabra]" << std::endl;
           std::cout << "\texit" << std::endl;
         }
+}
+
+void leerArchivo( std::string comando )
+{
+  std::string nombreArc, linea;
+  nombreArc = comando.substr( comando.find( " " ) + 1 );
+  std::ifstream archivo( nombreArc.c_str( ) );
+  std::cout << nombreArc << std::endl;
+  if( archivo.is_open() )
+  {
+    while( !archivo.eof() )
+    {
+      archivo >> linea;
+      std::cout << linea << std::endl;
+    }
+  }
 }
