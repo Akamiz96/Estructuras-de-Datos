@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <regex>
 #include "BinaryTreeAVL.h"
 #include "NodoVocabulario.h"
 
@@ -21,6 +22,8 @@ int main()
   {
     std::cout << "$ ";
     std::getline( std::cin, comando );
+
+    std::string aux1 = comando.substr( 0, comando.find( " " ) - 1);
 
     if( comando.find( "ayuda" ) != std::string::npos )
     {
@@ -64,7 +67,7 @@ int main()
         }
         else
         {
-          if( comando.find( "init" ) != std::string::npos )
+          if( comando.find( "init" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(init)(.*)") ) )
           {
             //TODO funcion init
             leerArchivo( tree, comando, true);
