@@ -1,40 +1,32 @@
-template <class T>
-BinaryTreeAVL<T>::BinaryTreeAVL(){
+
+BinaryTreeAVL::BinaryTreeAVL(){
 	root = nullptr;
 }
-template <class T>
-BinaryTreeAVL<T>::BinaryTreeAVL(T& val){
-	BinaryNodeAVL<T>* node = new BinaryNodeAVL<T>(val);
+BinaryTreeAVL::BinaryTreeAVL(NodoVocabulario& val){
+	BinaryNodeAVL* node = new BinaryNodeAVL(val);
 	root = node;
 }
-template <class T>
-BinaryTreeAVL<T>::~BinaryTreeAVL(){
+BinaryTreeAVL::~BinaryTreeAVL(){
 
 }
-template <class T>
-bool BinaryTreeAVL<T>::isEmpty(){
+bool BinaryTreeAVL::isEmpty(){
 	return (this->root == nullptr) ? true : false;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryTreeAVL<T>::getRoot(){
+BinaryNodeAVL* BinaryTreeAVL::getRoot(){
 	return this->root;
 }
-template <class T>
-void BinaryTreeAVL<T>::setRoot(BinaryNodeAVL<T>* nroot){
+void BinaryTreeAVL::setRoot(BinaryNodeAVL* nroot){
 	this->root = nroot;
 }
-template <class T>
-T& BinaryTreeAVL<T>::max(){
+T& BinaryTreeAVL::max(){
 	return (this->root->max());
 }
-template <class T>
-T& BinaryTreeAVL<T>::min(){
+T& BinaryTreeAVL::min(){
 	return (this->root->min());
 }
-template <class T>
-bool BinaryTreeAVL<T>::insert(T& n){
+bool BinaryTreeAVL::insert(NodoVocabulario& n){
 	if(this->isEmpty()){
-		BinaryNodeAVL<T>* nroot = new BinaryNodeAVL<T>(n);
+		BinaryNodeAVL* nroot = new BinaryNodeAVL(n);
 		this->setRoot(nroot);
 		this->updateHeight();
 		return true;
@@ -46,11 +38,10 @@ bool BinaryTreeAVL<T>::insert(T& n){
 	}
 	return false;
 }
-template <class T>
-bool BinaryTreeAVL<T>::erase(T& n){
+bool BinaryTreeAVL::erase(NodoVocabulario& n){
 	if(this->isEmpty())
 		return false;
-	BinaryNodeAVL<T>* node = nullptr;
+	BinaryNodeAVL* node = nullptr;
 	if(this->root->getData() == n){
 		if(this->eraseRoot()){
 			this->updateHeight();
@@ -68,11 +59,10 @@ bool BinaryTreeAVL<T>::erase(T& n){
 	this->balanceCheck(node);
 	return true;
 }
-template <class T>
-bool BinaryTreeAVL<T>::eraseRoot(){
+bool BinaryTreeAVL::eraseRoot(){
 	if(this->isEmpty())
 		return false;
-	BinaryNodeAVL<T>* node = this->root;
+	BinaryNodeAVL* node = this->root;
 	if(this->root->getRight() == nullptr && this->root->getLeft() == nullptr){
 		this->setRoot(nullptr);
 		delete node;
@@ -82,78 +72,64 @@ bool BinaryTreeAVL<T>::eraseRoot(){
 		delete node;
 	}
 	if(this->root->getRight() == nullptr && this->root->getLeft() != nullptr){
-		this->setRoot(this->root->getLeft());	
+		this->setRoot(this->root->getLeft());
 		delete node;
 	}
 	if(this->root->getRight() != nullptr && this->root->getLeft() != nullptr){
-		T max = this->root->getLeft()->max()->getData();
-		this->root->searchFather(max)->erase(max);	
+		NodoVocabulario max = this->root->getLeft()->max()->getData();
+		this->root->searchFather(max)->erase(max);
 		this->root->setData(max);
 	}
 	return true;
 }
-template <class T>
-bool BinaryTreeAVL<T>::search(T& n){
+bool BinaryTreeAVL::search(NodoVocabulario& n){
 	return (this->root->search(n) == nullptr) ? false : true;
 }
-template <class T>
-bool BinaryTreeAVL<T>::searchFather(T& n){
+bool BinaryTreeAVL::searchFather(NodoVocabulario& n){
 	return (this->root->searchFather(n) == nullptr) ? false : true;
 }
-template <class T>
-int BinaryTreeAVL<T>::treeHeight(){
+int BinaryTreeAVL::treeHeight(){
 	if(this->isEmpty())
 		return -1;
 	return this->root->nodeHeight();
 }
-template <class T>
-void BinaryTreeAVL<T>::updateHeight(){
+void BinaryTreeAVL::updateHeight(){
 	this->root->updateHeight();
 }
-template <class T>
-int BinaryTreeAVL<T>::size(){
-	if(this->isEmpty())
-		return 0;
-}
-template <class T>
-void BinaryTreeAVL<T>::inOrder(){
+void BinaryTreeAVL::inOrder(){
 	if(this->root->getLeft() != nullptr)
 	this->root->getLeft()->inOrder();
 	std::cout << this->root->getData() << std::endl;
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->inOrder();
 }
-template <class T>
-void BinaryTreeAVL<T>::preOrder(){
+void BinaryTreeAVL::preOrder(){
 	std::cout << this->root->getData() << std::endl;
 	if(this->root->getLeft() != nullptr)
 		this->root->getLeft()->preOrder();
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->preOrder();
 }
-template <class T>
-void BinaryTreeAVL<T>::posOrder(){
+void BinaryTreeAVL::posOrder(){
 	if(this->root->getLeft() != nullptr)
 		this->root->getLeft()->posOrder();
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->posOrder();
 	std::cout << this->root->getData() << std::endl;
 }
-template <class T>
-void BinaryTreeAVL<T>::levelOrder(){
-	std::list<BinaryNodeAVL<T>*> List; 
+void BinaryTreeAVL::levelOrder(){
+	std::list<BinaryNodeAVL*> List;
 	List.push_back(this->root);
-	for(typename std::list<BinaryNodeAVL<T>*>::iterator iterador = List.begin(); iterador != List.end(); iterador++){
+	for(typename std::list<BinaryNodeAVL*>::iterator iterador = List.begin(); iterador != List.end(); iterador++){
 		(*iterador)->levelOrder(List);
 	}
-	for(typename std::list<BinaryNodeAVL<T>*>::iterator iterador = List.begin(); iterador != List.end(); iterador++){
+	for(typename std::list<BinaryNodeAVL*>::iterator iterador = List.begin(); iterador != List.end(); iterador++){
 		std::cout << (*iterador)->getData() << std::endl;
 	}
 	List.clear();
 }
-template <class T>
-void BinaryTreeAVL<T>::balanceCheck(BinaryNodeAVL<T>* father){
-	BinaryNodeAVL<T>* fathersFather;
+void BinaryTreeAVL::balanceCheck(BinaryNodeAVL* father){
+	BinaryNodeAVL* fathersFather;
 	while(father != this->root || father == nullptr){
 		fathersFather = this->root->searchFather(father->getData());
 		if(father->balanceCheck(fathersFather,this->root)){

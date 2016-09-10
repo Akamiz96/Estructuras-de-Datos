@@ -1,67 +1,52 @@
-template <class T>
-BinaryNodeAVL<T>::BinaryNodeAVL(){
+BinaryNodeAVL::BinaryNodeAVL(){
 	right = nullptr;
-    left = nullptr;
+  left = nullptr;
 }
-template <class T>
-BinaryNodeAVL<T>::BinaryNodeAVL(T& val){
+BinaryNodeAVL::BinaryNodeAVL(NodoVocabulario& val){
     data = val;
     right = nullptr;
     left = nullptr;
 }
-template <class T>
-BinaryNodeAVL<T>::BinaryNodeAVL(T& val, BinaryNodeAVL<T>* rightSon, BinaryNodeAVL<T>* leftSon){
+BinaryNodeAVL::BinaryNodeAVL(NodoVocabulario& val, BinaryNodeAVL* rightSon, BinaryNodeAVL* leftSon){
     data = val;
     right = rightSon;
     left = leftSon;
 }
-template <class T>
-BinaryNodeAVL<T>::~BinaryNodeAVL(){
+BinaryNodeAVL::~BinaryNodeAVL(){
 
 }
-template <class T>
-T& BinaryNodeAVL<T>::getData(){
+NodoVocabulario& BinaryNodeAVL::getData(){
 	return this->data;
 }
-template <class T>
-BinaryNodeAVL<T>*& BinaryNodeAVL<T>::getRight(){
+BinaryNodeAVL*& BinaryNodeAVL::getRight(){
 	return this->right;
 }
-template <class T>
-BinaryNodeAVL<T>*& BinaryNodeAVL<T>::getLeft(){
+BinaryNodeAVL*& BinaryNodeAVL::getLeft(){
 	return this->left;
 }
-template <class T>
-unsigned int BinaryNodeAVL<T>::getHeight(){
+unsigned int BinaryNodeAVL::getHeight(){
 	return this->height;
 }
-template <class T>
-void BinaryNodeAVL<T>::setData (T& val){
+void BinaryNodeAVL::setData (NodoVocabulario& val){
 	this->data = val;
 }
-template <class T>
-void BinaryNodeAVL<T>::setRight (BinaryNodeAVL<T>* val){
+void BinaryNodeAVL::setRight (BinaryNodeAVL* val){
 	this->right = val;
 }
-template <class T>
-void BinaryNodeAVL<T>::setLeft (BinaryNodeAVL<T>* val){
+void BinaryNodeAVL::setLeft (BinaryNodeAVL* val){
 	this->left = val;
 }
-template <class T>
-void BinaryNodeAVL<T>::setHeight (unsigned int val){
+void BinaryNodeAVL::setHeight (unsigned int val){
 	this->height = val;
 }
-template <class T>
-BinaryNodeAVL<T>*  BinaryNodeAVL<T>::max(){
+BinaryNodeAVL*  BinaryNodeAVL::max(){
 	return (this->right == nullptr) ? this : this->right->max();
 }
-template <class T>
-BinaryNodeAVL<T>*  BinaryNodeAVL<T>::min(){
+BinaryNodeAVL*  BinaryNodeAVL::min(){
 	return (this->left == nullptr) ? this : this->left->min();
 }
-template <class T>
-bool BinaryNodeAVL<T>::insert (T& nval){
-	BinaryNodeAVL<T>* node = new BinaryNodeAVL<T>(nval);
+bool BinaryNodeAVL::insert (NodoVocabulario& nval){
+	BinaryNodeAVL* node = new BinaryNodeAVL(nval);
 	if(nval > this->data){
 		if(this->right == nullptr)
 			this->right = node;
@@ -79,9 +64,8 @@ bool BinaryNodeAVL<T>::insert (T& nval){
 
 	return true;
 }
-template <class T>
-void BinaryNodeAVL<T>::erase(T& val){
-	BinaryNodeAVL<T>* node;
+void BinaryNodeAVL::erase(NodoVocabulario& val){
+	BinaryNodeAVL* node;
 	if(val > this->data)
 		node = this->right;
 	if(val < this->data)
@@ -109,19 +93,18 @@ void BinaryNodeAVL<T>::erase(T& val){
 	}
 	if(node->getRight() != nullptr && node->getLeft() != nullptr){
 		if(val > this->data){
-			T max = node->getLeft()->max()->getData();
+			NodoVocabulario max = node->getLeft()->max()->getData();
 			this->searchFather(max)->erase(max);
 			this->right->setData(max);
 		}
 		if(val < this->data){
-			T max = node->getLeft()->max()->getData();
+			NodoVocabulario max = node->getLeft()->max()->getData();
 			this->searchFather(max)->erase(max);
 			this->left->setData(max);
 		}
 	}
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::search(T& val){
+BinaryNodeAVL* BinaryNodeAVL::search(NodoVocabulario& val){
 	if(this->data == val)
 		return this;
 	if(this->right != nullptr && val > this->data)
@@ -130,8 +113,7 @@ BinaryNodeAVL<T>* BinaryNodeAVL<T>::search(T& val){
 		return this->left->search(val);
 	return nullptr;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::searchFather(T& val){
+BinaryNodeAVL* BinaryNodeAVL::searchFather(NodoVocabulario& val){
 	if(this->right != nullptr && this->right->getData() == val)
 		return this;
 	if(this->right != nullptr && val > this->data)
@@ -144,8 +126,7 @@ BinaryNodeAVL<T>* BinaryNodeAVL<T>::searchFather(T& val){
 		return nullptr;
 	return nullptr;
 }
-template <class T>
-int BinaryNodeAVL<T>::nodeHeight(){
+int BinaryNodeAVL::nodeHeight(){
 	if(this->right == nullptr && this->left == nullptr)
 		return 0;
 	int rightH, leftH;
@@ -159,8 +140,7 @@ int BinaryNodeAVL<T>::nodeHeight(){
 		leftH = -1;
 	return (leftH > rightH) ? (1 + leftH) : (1 + rightH);
 }
-template <class T>
-void BinaryNodeAVL<T>::updateHeight(){
+void BinaryNodeAVL::updateHeight(){
 	if(this->right != nullptr){
 		this->right->updateHeight();
 	}
@@ -169,80 +149,66 @@ void BinaryNodeAVL<T>::updateHeight(){
 	}
 	this->setHeight(this->nodeHeight());
 }
-template <class T>
-int BinaryNodeAVL<T>::size(){
-
-}
-template <class T>
-void BinaryNodeAVL<T>::inOrder(){
+void BinaryNodeAVL::inOrder(){
 	if(this->left != nullptr)
 		this->left->inOrder();
 	std::cout << this->getData() << std::endl;
 	if(this->right != nullptr)
 		this->right->inOrder();
 }
-template <class T>
-void BinaryNodeAVL<T>::preOrder(){
+void BinaryNodeAVL::preOrder(){
 	std::cout << this->getData() << std::endl;
 	if(this->left != nullptr)
 		this->left->preOrder();
 	if(this->right != nullptr)
 		this->right->preOrder();
 }
-template <class T>
-void BinaryNodeAVL<T>::posOrder(){
+void BinaryNodeAVL::posOrder(){
 	if(this->left != nullptr)
 		this->left->posOrder();
 	if(this->right != nullptr)
 		this->right->posOrder();
 	std::cout << this->getData() << std::endl;
 }
-template <class T>
-void BinaryNodeAVL<T>::levelOrder(std::list<BinaryNodeAVL<T>*> & List){
-	if(this->eft != nullptr)
+void BinaryNodeAVL::levelOrder(std::list<BinaryNodeAVL*> & List){
+	if(this->left != nullptr)
 		List.push_back(this->left);
 	if(this->right != nullptr)
 		List.push_back(this->right);
 }
-template <class T>
-void BinaryNodeAVL<T>::descendants(){
+void BinaryNodeAVL::descendants(){
 	std::cout << "Father: " << this->data << std::endl;
 	if(this->right != nullptr)
 		std::cout << "Right son: " << this->right->getData() << std::endl;
 	if(this->left != nullptr)
 		std::cout << "Left son: " << this->left->getData() << std::endl;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::rightRotation(){
-	BinaryNodeAVL<T>* newFather = this->left;
+BinaryNodeAVL* BinaryNodeAVL::rightRotation(){
+	BinaryNodeAVL* newFather = this->left;
 	this->left = newFather->getRight();
 	newFather->setRight(this);
 	return newFather;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::leftRotation(){
-	BinaryNodeAVL<T>* newFather = this->right;
+BinaryNodeAVL* BinaryNodeAVL::leftRotation(){
+	BinaryNodeAVL* newFather = this->right;
 	this->right = newFather->getLeft();
 	newFather->setLeft(this);
 	return newFather;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::rightLeftRotation(){
-	BinaryNodeAVL<T>* aux = this->right->rightRotation();
+BinaryNodeAVL* BinaryNodeAVL::rightLeftRotation(){
+	BinaryNodeAVL* aux = this->right->rightRotation();
 	std::cout<< this->data << std::endl;
 	this->right = aux;
 	return this->leftRotation();
 
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::leftRightRotation(){
+BinaryNodeAVL* BinaryNodeAVL::leftRightRotation(){
 	BinaryNodeAVL<T>* aux = this->left->leftRotation();
 	this->left = aux;
 	return this->rightRotation();
 }
-template <class T>
-bool BinaryNodeAVL<T>::balanceCheck(BinaryNodeAVL<T>* father, BinaryNodeAVL<T>*& root){
-	BinaryNodeAVL<T>* change;
+bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
+	BinaryNodeAVL* change;
 	int dif;
 	if(this->left != nullptr && this->right != nullptr){
 		dif = this->left->getHeight() - this->right->getHeight();
@@ -338,8 +304,7 @@ bool BinaryNodeAVL<T>::balanceCheck(BinaryNodeAVL<T>* father, BinaryNodeAVL<T>*&
 	}
 	return false;
 }
-template <class T>
-BinaryNodeAVL<T>* BinaryNodeAVL<T>::balance(short int type){
+BinaryNodeAVL* BinaryNodeAVL::balance(short int type){
 	switch(type){
 		case 1:
 		return this->rightRotation();

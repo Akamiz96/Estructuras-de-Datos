@@ -1,33 +1,32 @@
 #ifndef __BINARYTREE_H__
 #define __BINARYTREE_H__
 #include "BinaryNodeAVL.h"
-#include <list> 
-template <class T>
+#include <list>
 class BinaryTreeAVL{
 	protected:
-		BinaryNodeAVL<T>* root;
+		BinaryNodeAVL* root;
 	public:
 		BinaryTreeAVL();
-		BinaryTreeAVL(T& val);
+		BinaryTreeAVL(NodoVocabulario& val);
 		~BinaryTreeAVL();
 		bool isEmpty();
-		BinaryNodeAVL<T>* getRoot();
-		void setRoot(BinaryNodeAVL<T>* nroot);
-		T& max();
-		T& min();
-		bool insert(T& n);
-		bool erase(T& n);
-		bool eraseRoot();
-		bool search(T& n);
-		bool searchFather(T& n);
+		BinaryNodeAVL* getRoot();
+		void setRoot(BinaryNodeAVL* nroot);
+		NodoVocabulario& max();
+		NodoVocabulario& min();
+		bool insert(NodoVocabulario& n);
+		bool erase(NodoVocabulario& n);
+		bool search(NodoVocabulario& n);
+		bool searchFather(NodoVocabulario& n);
 		int treeHeight();
 		void updateHeight();
-		int size();
 		void inOrder();
 		void preOrder();
 		void posOrder();
 		void levelOrder();
-		void balanceCheck(BinaryNodeAVL<T>* father);
+		void balanceCheck(BinaryNodeAVL* father);
+	private:
+		bool eraseRoot();
 };
 #include "BinaryTreeAVL.hxx"
 #endif
