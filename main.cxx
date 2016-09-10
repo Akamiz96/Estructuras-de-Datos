@@ -6,7 +6,7 @@
 #include "NodoVocabulario.h"
 
 void ayuda( std::string );
-void leerArchivo( BinaryTreeAVL&, std::string );
+void leerArchivo( BinaryTreeAVL&, std::string, bool );
 void insertarPalabra(BinaryTreeAVL&, std::string );
 int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
@@ -32,6 +32,7 @@ int main()
       {
         std::cout << "inverse" << std::endl;
         //TODO funcion init_inverse
+        leerArchivo( tree, comando, false);
         std::cout << std::endl;
       }
       else
@@ -48,7 +49,7 @@ int main()
           {
             std::cout << " init " << std::endl;
             //TODO funcion init
-            leerArchivo( tree, comando );
+            leerArchivo( tree, comando, true);
             std::cout << std::endl;
           }
           else
@@ -107,7 +108,7 @@ void ayuda( std::string comando )
           std::cout << "\texit" << std::endl;
         }
 }
-void leerArchivo( BinaryTreeAVL& tree, std::string comando )
+void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
 {
   std::string nombreArc, linea;
   nombreArc = comando.substr( comando.find( " " ) + 1 );
@@ -118,7 +119,10 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando )
     {
       archivo >> linea;
       std::transform(linea.begin(),linea.end(),linea.begin(),::tolower);
-      insertarPalabra(tree , linea);
+      if(tipo == true)
+        insertarPalabra(tree , linea);
+      else
+        insertarPalabra(tree, voltearPalabra(linea));
     }
   }
 }
