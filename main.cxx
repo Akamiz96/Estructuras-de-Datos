@@ -13,7 +13,6 @@ std::string voltearPalabra(std::string palabra);
 
 int main()
 {
-std::cout<<"hola"<<endl;
   BinaryTreeAVL tree;
   bool exit = false;
   std::string comando;
