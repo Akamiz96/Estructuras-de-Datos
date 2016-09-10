@@ -10,6 +10,7 @@ void leerArchivo( BinaryTreeAVL&, std::string, bool );
 void insertarPalabra(BinaryTreeAVL&, std::string );
 int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
+int scorePalabra( BinaryTreeAVL&, std::string );
 
 int main()
 {
@@ -30,7 +31,6 @@ int main()
     {
       if( comando.find( "init_inverse" ) != std::string::npos )
       {
-        std::cout << "inverse" << std::endl;
         //TODO funcion init_inverse
         leerArchivo( tree, comando, false);
         std::cout << std::endl;
@@ -39,15 +39,33 @@ int main()
       {
         if( comando.find( "score" ) != std::string::npos )
         {
-          std::cout << "score" << std::endl;
+          std::string palabra = comando.substr( comando.find( " " ) + 1 );
           //TODO funcion score
-          std::cout << std::endl;
+          int scoreP = scorePalabra(tree, palabra);
+          if(scoreP == -1){
+            std::cout << "----------------------------------------------------" << std::endl;
+            std::cout << "ERROR" << std::endl;
+            std::cout << "La palabra: " << palabra << " tiene caracteres invalidos." << std::endl;
+            std::cout << "----------------------------------------------------" << std::endl;
+          }
+          else{
+            if(scoreP == -2){
+              std::cout << "----------------------------------------------------" << std::endl;
+              std::cout << "ERROR" << std::endl;
+              std::cout << "La palabra: " << palabra << " no se encuentra en el diccionario." << std::endl;
+              std::cout << "----------------------------------------------------" << std::endl;
+            }
+            else{
+              std::cout << "El puntaje de la palabra: " << palabra << " es: " << scoreP << std::endl;
+              std::cout << std::endl;
+            }
+          }
+
         }
         else
         {
           if( comando.find( "init" ) != std::string::npos )
           {
-            std::cout << " init " << std::endl;
             //TODO funcion init
             leerArchivo( tree, comando, true);
             std::cout << std::endl;
@@ -175,4 +193,17 @@ std::string voltearPalabra(std::string palabra)
         ind++;
     }
     return nPalabra;
+}
+int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
+  if(validarPalabra(palabra) == 1){
+    BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
+    if(nodoLetra != nullptr){
+      std::map<std::string, int>::iterator iterador = nodoLetra->getData().getPalabras().find(palabra);
+      if(iterador != nodoLetra->getData().getPalabras().end())
+        return((nodoLetra->getData().getPalabras())[palabra]);
+    }
+    else
+      return (-2);
+  }
+  return (-1);
 }
