@@ -5,6 +5,7 @@
 
 void ayuda( std::string );
 void leerArchivo( std::string );
+std::string voltearPalabra(std::string palabra);
 
 int main()
 {
@@ -116,4 +117,17 @@ void leerArchivo( std::string comando )
       std::cout << linea << std::endl;
     }
   }
+}
+
+std::string voltearPalabra(std::string palabra)
+{
+    int ind = 0;
+    std::string nPalabra;
+    nPalabra.resize(palabra.size());
+    for(std::string::reverse_iterator apun = palabra.rbegin(); apun != palabra.rend(); apun++)
+    {
+        nPalabra[ind]=*apun;
+        ind++;
+    }
+    return nPalabra;
 }
