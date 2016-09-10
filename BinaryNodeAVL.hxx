@@ -47,57 +47,57 @@ BinaryNodeAVL*  BinaryNodeAVL::min(){
 }
 bool BinaryNodeAVL::insert (NodoVocabulario& nval){
 	BinaryNodeAVL* node = new BinaryNodeAVL(nval);
-	if(nval > this->data){
+	if(nval.getLetra() > this->data.getLetra()){
 		if(this->right == nullptr)
 			this->right = node;
 		else
 			this->right->insert(nval);
 	}
-	if(nval < this->data){
+	if(nval.getLetra() < this->data.getLetra()){
 		if(this->left == nullptr)
 			this->left = node;
 		else
 			this->left->insert(nval);
 	}
-	if(this->data == nval)
+	if(this->data.getLetra() == nval.getLetra())
 		return false;
 
 	return true;
 }
 void BinaryNodeAVL::erase(NodoVocabulario& val){
 	BinaryNodeAVL* node;
-	if(val > this->data)
+	if(val.getLetra() > this->data.getLetra())
 		node = this->right;
-	if(val < this->data)
+	if(val.getLetra() < this->data.getLetra())
 		node = this->left;
 	if(node->getRight() == nullptr && node->getLeft() == nullptr){
-		if(val > this->data)
+		if(val.getLetra() > this->data.getLetra())
 			this->right = nullptr;
-		if(val < this->data)
+		if(val.getLetra() < this->data.getLetra())
 			this->left = nullptr;
 		delete node;
 	}
 	if(node->getRight() != nullptr && node->getLeft() == nullptr){
-		if(val > this->data)
+		if(val.getLetra() > this->data.getLetra())
 			this->right = node->getRight();
-		if(val < this->data)
+		if(val.getLetra() < this->data.getLetra())
 			this->left = node->getRight();
 		delete node;
 	}
 	if(node->getRight() == nullptr && node->getLeft() != nullptr){
-		if(val > this->data)
+		if(val.getLetra() > this->data.getLetra())
 			this->right = node->getLeft();
-		if(val < this->data)
+		if(val.getLetra() < this->data.getLetra())
 			this->left = node->getLeft();
 		delete node;
 	}
 	if(node->getRight() != nullptr && node->getLeft() != nullptr){
-		if(val > this->data){
+		if(val.getLetra() > this->data.getLetra()){
 			NodoVocabulario max = node->getLeft()->max()->getData();
 			this->searchFather(max)->erase(max);
 			this->right->setData(max);
 		}
-		if(val < this->data){
+		if(val.getLetra() < this->data.getLetra()){
 			NodoVocabulario max = node->getLeft()->max()->getData();
 			this->searchFather(max)->erase(max);
 			this->left->setData(max);
@@ -105,24 +105,24 @@ void BinaryNodeAVL::erase(NodoVocabulario& val){
 	}
 }
 BinaryNodeAVL* BinaryNodeAVL::search(NodoVocabulario& val){
-	if(this->data == val)
+	if(this->data.getLetra() == val.getLetra())
 		return this;
-	if(this->right != nullptr && val > this->data)
+	if(this->right != nullptr && val.getLetra() > this->data.getLetra())
 		return this->right->search(val);
-	if(this->left != nullptr && val < this->data)
+	if(this->left != nullptr && val.getLetra() < this->data.getLetra())
 		return this->left->search(val);
 	return nullptr;
 }
 BinaryNodeAVL* BinaryNodeAVL::searchFather(NodoVocabulario& val){
-	if(this->right != nullptr && this->right->getData() == val)
+	if(this->right != nullptr && this->right->getData().getLetra() == val.getLetra())
 		return this;
-	if(this->right != nullptr && val > this->data)
+	if(this->right != nullptr && val.getLetra() > this->data.getLetra())
 		return this->right->searchFather(val);
-	if(this->left != nullptr && this->left->getData() == val)
+	if(this->left != nullptr && this->left->getData().getLetra() == val.getLetra())
 		return this;
-	if(this->left != nullptr && val < this->data)
+	if(this->left != nullptr && val.getLetra() < this->data.getLetra())
 		return this->left->searchFather(val);
-	if(this->data == val)
+	if(this->data.getLetra() == val.getLetra())
 		return nullptr;
 	return nullptr;
 }
@@ -152,12 +152,12 @@ void BinaryNodeAVL::updateHeight(){
 void BinaryNodeAVL::inOrder(){
 	if(this->left != nullptr)
 		this->left->inOrder();
-	std::cout << this->getData() << std::endl;
+	std::cout << this->getData().getLetra() << std::endl;
 	if(this->right != nullptr)
 		this->right->inOrder();
 }
 void BinaryNodeAVL::preOrder(){
-	std::cout << this->getData() << std::endl;
+	std::cout << this->getData().getLetra() << std::endl;
 	if(this->left != nullptr)
 		this->left->preOrder();
 	if(this->right != nullptr)
@@ -168,7 +168,7 @@ void BinaryNodeAVL::posOrder(){
 		this->left->posOrder();
 	if(this->right != nullptr)
 		this->right->posOrder();
-	std::cout << this->getData() << std::endl;
+	std::cout << this->getData().getLetra() << std::endl;
 }
 void BinaryNodeAVL::levelOrder(std::list<BinaryNodeAVL*> & List){
 	if(this->left != nullptr)
@@ -177,11 +177,11 @@ void BinaryNodeAVL::levelOrder(std::list<BinaryNodeAVL*> & List){
 		List.push_back(this->right);
 }
 void BinaryNodeAVL::descendants(){
-	std::cout << "Father: " << this->data << std::endl;
+	std::cout << "Father: " << this->data.getLetra() << std::endl;
 	if(this->right != nullptr)
-		std::cout << "Right son: " << this->right->getData() << std::endl;
+		std::cout << "Right son: " << this->right->getData().getLetra() << std::endl;
 	if(this->left != nullptr)
-		std::cout << "Left son: " << this->left->getData() << std::endl;
+		std::cout << "Left son: " << this->left->getData().getLetra() << std::endl;
 }
 BinaryNodeAVL* BinaryNodeAVL::rightRotation(){
 	BinaryNodeAVL* newFather = this->left;
@@ -197,13 +197,12 @@ BinaryNodeAVL* BinaryNodeAVL::leftRotation(){
 }
 BinaryNodeAVL* BinaryNodeAVL::rightLeftRotation(){
 	BinaryNodeAVL* aux = this->right->rightRotation();
-	std::cout<< this->data << std::endl;
 	this->right = aux;
 	return this->leftRotation();
 
 }
 BinaryNodeAVL* BinaryNodeAVL::leftRightRotation(){
-	BinaryNodeAVL<T>* aux = this->left->leftRotation();
+	BinaryNodeAVL* aux = this->left->leftRotation();
 	this->left = aux;
 	return this->rightRotation();
 }
@@ -238,7 +237,7 @@ bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
 			else{
 				if(father != nullptr){
 					change = this->balance(1);
-					if(change->getData() > father->getData())
+					if(change->getData().getLetra() > father->getData().getLetra())
 						father->setRight(change);
 					else
 						father->setLeft(change);
@@ -251,7 +250,7 @@ bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
 			else{
 				if(father != nullptr){
 					change = this->balance(3);
-					if(change->getData() > father->getData())
+					if(change->getData().getLetra() > father->getData().getLetra())
 						father->setRight(change);
 					else
 						father->setLeft(change);
@@ -278,7 +277,7 @@ bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
 			else{
 				if(father != nullptr){
 					change = this->balance(2);
-					if(change->getData() > father->getData())
+					if(change->getData().getLetra() > father->getData().getLetra())
 						father->setRight(change);
 					else
 						father->setLeft(change);
@@ -287,13 +286,13 @@ bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
 			return true;
 		}
 		if(leftH > rightH){
-			if(this->data == root->getData()){
+			if(this->data.getLetra() == root->getData().getLetra()){
 					root = this->balance(4);
 			}
 			else{
 				if(father != nullptr){
 					change = this->balance(4);
-					if(change->getData() > father->getData())
+					if(change->getData().getLetra() > father->getData().getLetra())
 						father->setRight(change);
 					else
 						father->setLeft(change);

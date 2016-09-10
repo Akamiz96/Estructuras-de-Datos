@@ -18,10 +18,10 @@ BinaryNodeAVL* BinaryTreeAVL::getRoot(){
 void BinaryTreeAVL::setRoot(BinaryNodeAVL* nroot){
 	this->root = nroot;
 }
-T& BinaryTreeAVL::max(){
+BinaryNodeAVL* BinaryTreeAVL::max(){
 	return (this->root->max());
 }
-T& BinaryTreeAVL::min(){
+BinaryNodeAVL* BinaryTreeAVL::min(){
 	return (this->root->min());
 }
 bool BinaryTreeAVL::insert(NodoVocabulario& n){
@@ -42,7 +42,7 @@ bool BinaryTreeAVL::erase(NodoVocabulario& n){
 	if(this->isEmpty())
 		return false;
 	BinaryNodeAVL* node = nullptr;
-	if(this->root->getData() == n){
+	if(this->root->getData().getLetra() == n.getLetra()){
 		if(this->eraseRoot()){
 			this->updateHeight();
 			this->balanceCheck(this->root);
@@ -99,12 +99,12 @@ void BinaryTreeAVL::updateHeight(){
 void BinaryTreeAVL::inOrder(){
 	if(this->root->getLeft() != nullptr)
 	this->root->getLeft()->inOrder();
-	std::cout << this->root->getData() << std::endl;
+	std::cout << this->root->getData().getLetra() << std::endl;
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->inOrder();
 }
 void BinaryTreeAVL::preOrder(){
-	std::cout << this->root->getData() << std::endl;
+	std::cout << this->root->getData().getLetra() << std::endl;
 	if(this->root->getLeft() != nullptr)
 		this->root->getLeft()->preOrder();
 	if(this->root->getRight() != nullptr)
@@ -115,7 +115,7 @@ void BinaryTreeAVL::posOrder(){
 		this->root->getLeft()->posOrder();
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->posOrder();
-	std::cout << this->root->getData() << std::endl;
+	std::cout << this->root->getData().getLetra() << std::endl;
 }
 void BinaryTreeAVL::levelOrder(){
 	std::list<BinaryNodeAVL*> List;
@@ -124,7 +124,7 @@ void BinaryTreeAVL::levelOrder(){
 		(*iterador)->levelOrder(List);
 	}
 	for(typename std::list<BinaryNodeAVL*>::iterator iterador = List.begin(); iterador != List.end(); iterador++){
-		std::cout << (*iterador)->getData() << std::endl;
+		std::cout << (*iterador)->getData().getLetra() << std::endl;
 	}
 	List.clear();
 }

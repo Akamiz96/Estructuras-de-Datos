@@ -12,8 +12,8 @@ class BinaryTreeAVL{
 		bool isEmpty();
 		BinaryNodeAVL* getRoot();
 		void setRoot(BinaryNodeAVL* nroot);
-		NodoVocabulario& max();
-		NodoVocabulario& min();
+		BinaryNodeAVL* max();
+		BinaryNodeAVL* min();
 		bool insert(NodoVocabulario& n);
 		bool erase(NodoVocabulario& n);
 		bool search(NodoVocabulario& n);
