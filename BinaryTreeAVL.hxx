@@ -1,4 +1,3 @@
-
 BinaryTreeAVL::BinaryTreeAVL(){
 	root = nullptr;
 }

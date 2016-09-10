@@ -286,7 +286,7 @@ bool BinaryNodeAVL::balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root){
 			return true;
 		}
 		if(leftH > rightH){
-			if(this->data.getLetra() == root->getData().getLetra()){
+			if(this == root){
 					root = this->balance(4);
 			}
 			else{
