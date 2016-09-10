@@ -82,13 +82,19 @@ bool BinaryTreeAVL::eraseRoot(){
 	return true;
 }
 bool BinaryTreeAVL::search(NodoVocabulario& n){
-	return (this->root->search(n) == nullptr) ? false : true;
+	if(this->root != nullptr)
+		return (this->root->search(n) == nullptr) ? false : true;
+	return false;
 }
-BinaryNodeAVL* search(char val){
-	return this->root->search(val);
+BinaryNodeAVL* BinaryTreeAVL::search(char val){
+	if(this->root != nullptr)
+		return this->root->search(val);
+	return nullptr;
 }
 bool BinaryTreeAVL::searchFather(NodoVocabulario& n){
-	return (this->root->searchFather(n) == nullptr) ? false : true;
+	if(this->root != nullptr)
+		return (this->root->searchFather(n) == nullptr) ? false : true;
+	return false;
 }
 int BinaryTreeAVL::treeHeight(){
 	if(this->isEmpty())

@@ -113,7 +113,7 @@ BinaryNodeAVL* BinaryNodeAVL::search(NodoVocabulario& val){
 		return this->left->search(val);
 	return nullptr;
 }
-BinaryNodeAVL* search(char val){
+BinaryNodeAVL* BinaryNodeAVL::search(char val){
 	if(this->data.getLetra() == val)
 		return this;
 	if(this->right != nullptr && val > this->data.getLetra())

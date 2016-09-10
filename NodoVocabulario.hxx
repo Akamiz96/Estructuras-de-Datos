@@ -17,17 +17,23 @@ void NodoVocabulario::setLetra (char letraNodo){
 void NodoVocabulario::setPalabras (std::map<std::string, int> palabrasNodo){
   this->palabras = palabrasNodo;
 }
-char NodoVocabulario::getLetra (){  
+char NodoVocabulario::getLetra (){
   return this->letra;
 }
 std::map<std::string, int> NodoVocabulario::getPalabras(){
   return this->palabras;
 }
-void insertarPalabra(std::string palabra){
+void NodoVocabulario::insertarPalabra(std::string palabra){
   std::pair<std::map<std::string, int>::iterator, bool> insercion;
-  insercion = this->palabras.insert(std::pair<std::string, int>(palabra, calcularPuntaje(palabra)))
+  insercion = this->palabras.insert(std::pair<std::string, int>(palabra, calcularPuntaje(palabra)));
+  if(insercion.second == false){
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "ERROR" << std::endl;
+    std::cout << "La palabra: " << palabra << " ya se encuentra en el diccionario." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+  }
 }
-unsigned int calcularPuntaje(std::string palabra){
+unsigned int NodoVocabulario::calcularPuntaje(std::string palabra){
   unsigned int puntaje = 0;
   for(std::string::iterator iterador = palabra.begin(); iterador != palabra.end(); iterador++){
     if(*(iterador) == 'e' || *(iterador) == 'a' || *(iterador) == 'i' || *(iterador) == 'o' || *(iterador) == 'n' || *(iterador) == 'r' || *(iterador) == 't' || *(iterador) == 'l' || *(iterador) == 's' || *(iterador) == 'u')
