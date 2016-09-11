@@ -22,9 +22,7 @@ int main()
   {
     std::cout << "$ ";
     std::getline( std::cin, comando );
-
-    std::string aux1 = comando.substr( 0, comando.find( " " ) - 1);
-
+    std::string aux1 = comando.substr( 0, comando.find( " " ) );
     if( comando.find( "ayuda" ) != std::string::npos )
     {
       ayuda( comando );
@@ -32,7 +30,7 @@ int main()
     }
     else
     {
-      if( comando.find( "init_inverse" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(init_inverse)(.*)") ) )
+      if( aux1 == "init_inverse" )
       {
         //TODO funcion init_inverse
         leerArchivo( tree, comando, false);
@@ -40,7 +38,7 @@ int main()
       }
       else
       {
-        if( comando.find( "score" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(score)(.*)") ) )
+        if( aux1 == "score" )
         {
           std::string palabra = comando.substr( comando.find( " " ) + 1 );
           //TODO funcion score
@@ -67,7 +65,7 @@ int main()
         }
         else
         {
-          if( comando.find( "init" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(init)(.*)") ) )
+          if( aux1 == "init" )
           {
             //TODO funcion init
             leerArchivo( tree, comando, true);
