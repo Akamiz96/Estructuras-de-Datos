@@ -172,7 +172,7 @@ int validarPalabra(std::string palabra)
     for(unsigned int i=0;i<palabra.size();i++)
     {
         char caracter=palabra[i];
-        if(caracter>=65&&caracter<=90||caracter>=97&&caracter<=122)
+        if((caracter>=65&&caracter<=90)||(caracter>=97&&caracter<=122))
             verificado=1;
         else
         {
@@ -204,6 +204,8 @@ int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
       std::map<std::string, int>::iterator iterador = nodoLetra->getData().getPalabras().find(palabra);
       if(iterador != nodoLetra->getData().getPalabras().end())
         return((nodoLetra->getData().getPalabras())[palabra]);
+      else
+        return (-2);
     }
     else
       return (-2);
