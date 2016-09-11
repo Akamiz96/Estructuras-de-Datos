@@ -32,7 +32,7 @@ int main()
     }
     else
     {
-      if( comando.find( "init_inverse" ) != std::string::npos )
+      if( comando.find( "init_inverse" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(init_inverse)(.*)") ) )
       {
         //TODO funcion init_inverse
         leerArchivo( tree, comando, false);
@@ -40,7 +40,7 @@ int main()
       }
       else
       {
-        if( comando.find( "score" ) != std::string::npos )
+        if( comando.find( "score" ) != std::string::npos && !std::regex_match ( aux1, std::regex("(score)(.*)") ) )
         {
           std::string palabra = comando.substr( comando.find( " " ) + 1 );
           //TODO funcion score
@@ -74,9 +74,9 @@ int main()
             std::cout << std::endl;
           }
           else
-            if( comando.find( "exit" ) == std::string::npos )
+            if( aux1 != "exit" )
             {
-              std::cout << "Error comando inexistente" << std::endl;
+              std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
               std::cout << std::endl;
             }
             else
@@ -91,7 +91,7 @@ int main()
 
 void ayuda( std::string comando )
 {
-  if( comando.find( "ayuda init_inverse" ) != std::string::npos )
+  if( comando == "ayuda init_inverse" )
   {
     std::cout << "comando: init_inverse words_file.txt." << std::endl;
     std::cout << "descripción: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
@@ -100,7 +100,7 @@ void ayuda( std::string comando )
               << "almacena las palabras en sentido inverso (leidas de derecha a izquierda)" << std::endl;
   }
   else
-    if( comando.find( "ayuda init" ) != std::string::npos )
+    if( comando == "ayuda init" )
     {
       std::cout << "comando: init words_file.txt" << std::endl;
       std::cout << "descripción: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
@@ -108,25 +108,31 @@ void ayuda( std::string comando )
                 << "(idioma original del juego)." << std::endl << std::endl;
     }
     else
-      if( comando.find( "ayuda score" ) != std::string::npos )
+      if( comando == "ayuda score" )
       {
         std::cout << "comando: score word" << std::endl;
         std::cout << "descripción: El comando permite conocer la puntuacion que puede obtenerse con" << std::endl
                   << "una palabra dada, de acuerdo a la tabla de puntuacion de cada letra." << std::endl;
       }
       else
-        if( comando.find( "ayuda exit" ) != std::string::npos )
+        if( comando == "ayuda exit" )
         {
           std::cout << "comando: exit" << std::endl;
           std::cout << "descripción: Termina la ejecucion de la aplicacion." << std::endl;
         }
         else
         {
-          std::cout << "Teclee \"ayuda <comando>\" para obtener más informacion del comando" << std::endl;
-          std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl;
-          std::cout << "\tinit_inverse [nombre del archivo]" << std::endl;
-          std::cout << "\tscore [palabra]" << std::endl;
-          std::cout << "\texit" << std::endl;
+          if( comando == "ayuda" )
+          {
+            std::cout << "Teclee \"ayuda <comando>\" para obtener más informacion del comando" << std::endl;
+            std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl;
+            std::cout << "\tinit_inverse [nombre del archivo]" << std::endl;
+            std::cout << "\tscore [palabra]" << std::endl;
+            std::cout << "\texit" << std::endl;
+          }
+          else
+          std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+
         }
 }
 void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
