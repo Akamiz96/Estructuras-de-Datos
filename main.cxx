@@ -150,6 +150,13 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
         insertarPalabra(tree, voltearPalabra(linea));
     }
   }
+  else
+  {
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "ERROR" << std::endl;
+    std::cout << "apertura del archivo: " << nombreArc << " fallida." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+  }
 }
 void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
   if(validarPalabra(palabra) == 1){
