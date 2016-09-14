@@ -16,13 +16,13 @@ int scorePalabra( BinaryTreeAVL&, std::string );
 int main()
 {
   BinaryTreeAVL tree;
-  bool exit = false;
+  bool exit = false, init = false, init_inverse = false;
   std::string comando;
   do
   {
     std::cout << "$ ";
     std::getline( std::cin, comando );
-    std::string aux1 = comando.substr( 0, comando.find( " " ) );
+    std::string aux = comando.substr( 0, comando.find( " " ) );
     if( comando.find( "ayuda" ) != std::string::npos )
     {
       ayuda( comando );
@@ -30,15 +30,16 @@ int main()
     }
     else
     {
-      if( aux1 == "init_inverse" )
+      if( aux == "init_inverse" && !init_inverse )
       {
         //TODO funcion init_inverse
         leerArchivo( tree, comando, false);
+        init_inverse = true;
         std::cout << std::endl;
       }
       else
       {
-        if( aux1 == "score" )
+        if( aux == "score" )
         {
           std::string palabra = comando.substr( comando.find( " " ) + 1 );
           //TODO funcion score
@@ -46,18 +47,18 @@ int main()
           if(scoreP == -1){
             std::cout << "----------------------------------------------------" << std::endl;
             std::cout << "ERROR" << std::endl;
-            std::cout << "La palabra: " << palabra << " tiene caracteres invalidos." << std::endl;
+            std::cout << "La palabra " << palabra << " tiene caracteres invalidos." << std::endl;
             std::cout << "----------------------------------------------------" << std::endl;
           }
           else{
             if(scoreP == -2){
               std::cout << "----------------------------------------------------" << std::endl;
               std::cout << "ERROR" << std::endl;
-              std::cout << "La palabra: " << palabra << " no se encuentra en el diccionario." << std::endl;
+              std::cout << "La palabra " << palabra << " no se encuentra en el diccionario." << std::endl;
               std::cout << "----------------------------------------------------" << std::endl;
             }
             else{
-              std::cout << "El puntaje de la palabra: " << palabra << " es: " << scoreP << std::endl;
+              std::cout << "El puntaje de la palabra " << palabra << " es: " << scoreP << std::endl;
               std::cout << std::endl;
             }
           }
@@ -65,20 +66,31 @@ int main()
         }
         else
         {
-          if( aux1 == "init" )
+          if( aux == "init" && !init )
           {
             //TODO funcion init
             leerArchivo( tree, comando, true);
+            init = true;
             std::cout << std::endl;
           }
           else
-            if( aux1 != "exit" )
-            {
-              std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-              std::cout << std::endl;
-            }
-            else
+            if( aux == "exit" )
               exit = true;
+            else
+              if( init || init_inverse )
+              {
+                if( init )
+                  std::cout << "Diccionario";
+                else
+                  std::cout << "Diccionario inverso";
+                std::cout << " ya ha sido inicializado." << std::endl;
+                std::cout << std::endl;
+              }
+              else
+              {
+                std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                std::cout << std::endl;
+              }
         }
 
       }
@@ -133,6 +145,7 @@ void ayuda( std::string comando )
 
         }
 }
+
 void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
 {
   std::string nombreArc, linea;
@@ -149,6 +162,10 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
       else
         insertarPalabra(tree, voltearPalabra(linea));
     }
+    std::cout << std::endl << "----------------------------------------------------" << std::endl;
+    std::cout << "El diccionario se inicializo." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+
   }
   else
   {
@@ -158,6 +175,7 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
     std::cout << "----------------------------------------------------" << std::endl;
   }
 }
+
 void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
   if(validarPalabra(palabra) == 1){
     BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
@@ -177,23 +195,22 @@ void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
     std::cout << "----------------------------------------------------" << std::endl;
   }
 }
-int validarPalabra(std::string palabra)
+
+int validarPalabra( std::string palabra )
 {
-    int verificado=0;
-    for(unsigned int i=0;i<palabra.size();i++)
+    int verificado = 0;
+    for( unsigned int i = 0; i < palabra.size(); i++ )
     {
-        char caracter=palabra[i];
-        if((caracter>=65&&caracter<=90)||(caracter>=97&&caracter<=122))
-            verificado=1;
+        char caracter = palabra[i];
+        if( ( caracter >= 65 && caracter <= 90 ) || ( caracter >= 97 && caracter <= 122 ) )
+            verificado = 1;
         else
         {
-            verificado=0;
-            break;
+          verificado = 0;
+          break;
         }
-
     }
     return verificado;
-
 }
 
 std::string voltearPalabra(std::string palabra)
@@ -208,6 +225,7 @@ std::string voltearPalabra(std::string palabra)
     }
     return nPalabra;
 }
+
 int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
   if(validarPalabra(palabra) == 1){
     BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
