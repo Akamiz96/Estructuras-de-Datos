@@ -77,7 +77,7 @@ int main()
             if( aux == "exit" )
               exit = true;
             else
-              if( init || init_inverse )
+              if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
               {
                 if( init )
                   std::cout << "Diccionario";
