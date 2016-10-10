@@ -8,6 +8,12 @@ NodoVocabulario::NodoVocabulario(char letraNodo, std::map<std::string, int> pala
   letra = letraNodo;
   palabras = palabrasNodo;
 }
+NodoVocabulario::NodoVocabulario(char letraNodo, std::map<std::string, int> palabrasNodo
+                                 , std::map<std::string, int> palabrasInvNodo){
+  letra = letraNodo;
+  palabras = palabrasNodo;
+  palabrasInv = palabrasInvNodo;
+}
 NodoVocabulario::~NodoVocabulario(){
 
 }
@@ -17,11 +23,18 @@ void NodoVocabulario::setLetra (char letraNodo){
 void NodoVocabulario::setPalabras (std::map<std::string, int> palabrasNodo){
   this->palabras = palabrasNodo;
 }
+void NodoVocabulario::setPalabrasInv (std::map<std::string, int> palabrasInvNodo)
+{
+    this->palabras=palabrasInvNodo;
+}
 char NodoVocabulario::getLetra (){
   return this->letra;
 }
 std::map<std::string, int> NodoVocabulario::getPalabras(){
   return this->palabras;
+}
+std::map<std::string, int> NodoVocabulario::getPalabrasInv(){
+    return this->palabrasInv;
 }
 void NodoVocabulario::insertarPalabra(std::string palabra){
   std::pair<std::map<std::string, int>::iterator, bool> insercion;
@@ -30,6 +43,16 @@ void NodoVocabulario::insertarPalabra(std::string palabra){
     std::cout << "----------------------------------------------------" << std::endl;
     std::cout << "ERROR" << std::endl;
     std::cout << "La palabra: " << palabra << " ya se encuentra en el diccionario." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+  }
+}
+void NodoVocabulario::insetarPalabraInv(std::string palabraInv){
+  std::pair<std::map<std::string, int>::iterator, bool> insercion;
+  insercion = this->palabrasInv.insert(std::pair<std::string, int>(palabraInv, calcularPuntaje(palabraInv)));
+  if(insercion.second == false){
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "ERROR" << std::endl;
+    std::cout << "La palabra: " << palabraInv << " ya se encuentra en el diccionario." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
   }
 }
