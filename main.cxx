@@ -92,24 +92,34 @@ int main()
               //std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
             }
             else{
-              if( aux == "exit" )
-                exit = true;
-              else
+              if( aux == "words_by_prefix" )
               {
-                if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                std::string prefijo = comando.substr( comando.find( " " ) + 1 );
+                std::list< std::string > palabras = prefix( tree_letras, prefijo );
+                for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
                 {
-                  if( init )
-                    std::cout << "Diccionario";
-                  else
-                    std::cout << "Diccionario inverso";
-                  std::cout << " ya ha sido inicializado." << std::endl;
-                  std::cout << std::endl;
+                  std::cout << *it << std::endl;
                 }
+              }
+              else
+                if( aux == "exit" )
+                  exit = true;
                 else
                 {
-                  std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                  std::cout << std::endl;
-                }
+                  if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                  {
+                    if( init )
+                      std::cout << "Diccionario";
+                    else
+                      std::cout << "Diccionario inverso";
+                    std::cout << " ya ha sido inicializado." << std::endl;
+                    std::cout << std::endl;
+                  }
+                  else
+                  {
+                    std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                    std::cout << std::endl;
+                  }
               }
             }
           }
@@ -329,7 +339,7 @@ bool leerArchivoXLetras( std::map<char, Arboles>& tree_letras, std::string coman
       else
         insertarPalabraXLetras(tree_letras, voltearPalabra(linea), tipo);
     }while( !archivo.eof() );
-    std::cout << std::endl << "----------------------------------------------------" << std::endl;
+    std::cout << std::endl << "-------------char * PLetra---------------------------------------" << std::endl;
     std::cout << "El diccionario se inicializo." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
     return true;
@@ -395,10 +405,14 @@ void insertarPalabraXLetras(std::map<char, Arboles>& tree_letras, std::string pa
 
 std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::string prefijo )
 {
-  std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
-  if( itTree_letras != tree_letras.end() )
+  if( !tree_letras.empty() )
   {
-    Arboles aux = itTree_letras->second;
-    std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
+    std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
+    if( itTree_letras != tree_letras.end() )
+    {
+      Arboles aux = itTree_letras->second;
+      std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
+      return prefijos;
+    }
   }
 }
