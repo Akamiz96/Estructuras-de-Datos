@@ -52,6 +52,7 @@ void Arbol::insertarPalabra(std::string palabra){
 		palabra.erase(palabra.begin());
 		this->root->insertarPalabra(palabra);
 	}
+}
 
 std::list< std::string > Arbol::prefix( std::string prefijo )
 {
@@ -63,7 +64,7 @@ std::list< std::string > Arbol::prefix( std::string prefijo )
     while( !encontrado )
     {
       std::list< Node* >::iterator it = ( aux->getDesc() ).begin();
-      if( it != end() )
+      if( it != ( aux->getDesc() ).end() )
       {
         if( ( *it )->getData() = prefijo[i] )
         {
@@ -77,7 +78,7 @@ std::list< std::string > Arbol::prefix( std::string prefijo )
   std::string palabra = prefijo;
   std::list< std::string > palabras;
   for( std::list < Node* >::const_iterator iterador = ( aux->getDesc() ).begin();
-       iterador != ( node->getDesc() ).end(); iterador++)
+       iterador != ( aux->getDesc() ).end(); iterador++)
   {
 		( *iterador )->prefix( palabras, palabra );
 	}
