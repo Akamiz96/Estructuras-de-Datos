@@ -26,7 +26,7 @@ void Node::setData(char& val){
 }
 
 
-void Node::addDesc(char& nval){
+void Node::addDesc(char nval){
 	Node * node = new Node();
 	node->data=nval;
 	this->desc.push_back(node);
@@ -53,7 +53,7 @@ std::list<Node*> Node::descendants(){
 	return descendientes;
 }
 
-void Node::insertarPalabra(std::string palabra){
+void Node::insertarPalabra(std::string palabra, bool& insercion){
   if(!palabra.empty()){
     Node* node = nullptr;
     for(std::list<Node*>:: iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
@@ -62,14 +62,17 @@ void Node::insertarPalabra(std::string palabra){
     }
     if(node != nullptr){
       palabra.erase(palabra.begin());
-  		node->insertarPalabra(palabra);
+      std::cout << palabra << std::endl;
+  		node->insertarPalabra(palabra, insercion);
     }
     else{
       this->addDesc(palabra[0]);
-      this->insertarPalabra(palabra);
+      this->insertarPalabra(palabra, insercion);
+      insercion = true;
     }
   }
 }
+
 void Node::prefix( std::list< std::string >& palabras, std::string& palabra )
 {
   palabra.push_back( this->data );
