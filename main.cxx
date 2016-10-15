@@ -6,6 +6,12 @@
 #include "BinaryTreeAVL.h"
 #include "NodoVocabulario.h"
 
+struct Arboles
+{
+  Arbol dicc;
+  Arbol inverse_dicc;
+};
+
 void ayuda( std::string );
 void leerArchivo( BinaryTreeAVL&, std::string, bool );
 void insertarPalabra(BinaryTreeAVL&, std::string, bool );
@@ -104,7 +110,7 @@ void ayuda( std::string comando )
   if( comando == "ayuda init_inverse" )
   {
     std::cout << "comando: init_inverse words_file.txt." << std::endl;
-    std::cout << "descripción: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
+    std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
               << "contiene un diccionario de palabras aceptadas en el idioma ingles" << std::endl
               << "(idioma original del juego). A diferencia del comando init, este comando" << std::endl
               << "almacena las palabras en sentido inverso (leidas de derecha a izquierda)" << std::endl;
@@ -113,36 +119,74 @@ void ayuda( std::string comando )
     if( comando == "ayuda init" )
     {
       std::cout << "comando: init words_file.txt" << std::endl;
-      std::cout << "descripción: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
-                << "contiene un diccionario de palabras aceptadas en el idioma ingles" << std::endl
-                << "(idioma original del juego)." << std::endl << std::endl;
+      std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
+                << "contiene un diccionario de palabras aceptadas en el idioma ingles (idioma" << std::endl
+                << "original del juego)." << std::endl << std::endl;
     }
     else
       if( comando == "ayuda score" )
       {
         std::cout << "comando: score word" << std::endl;
-        std::cout << "descripción: El comando permite conocer la puntuacion que puede obtenerse con" << std::endl
+        std::cout << "descripcion: El comando permite conocer la puntuacion que puede obtenerse con" << std::endl
                   << "una palabra dada, de acuerdo a la tabla de puntuacion de cada letra." << std::endl;
       }
       else
         if( comando == "ayuda exit" )
         {
           std::cout << "comando: exit" << std::endl;
-          std::cout << "descripción: Termina la ejecucion de la aplicacion." << std::endl;
+          std::cout << "descripcion: Termina la ejecucion de la aplicacion." << std::endl;
         }
         else
         {
           if( comando == "ayuda" )
           {
             std::cout << "Teclee \"ayuda <comando>\" para obtener más informacion del comando" << std::endl;
-            std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl;
-            std::cout << "\tinit_inverse [nombre del archivo]" << std::endl;
-            std::cout << "\tscore [palabra]" << std::endl;
-            std::cout << "\texit" << std::endl;
+            std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl
+                      << "\tinit_inverse [nombre del archivo]" << std::endl
+                      << "\tinit_tree [nombre del archivo]" << std::endl
+                      << "\tinit_inverse_tree [nombre del archivo]" << std::endl
+                      << "\twords_by_prefix [prefijo]" << std::endl
+                      << "\twords_by_suffix [sufijo]" << std::endl
+                      << "\tscore [palabra]" << std::endl
+                      << "\texit" << std::endl;
           }
           else
-          std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-
+            if( comando == "ayuda init_tree" )
+            {
+              std::cout << "comando: init_tree words_file.txt" << std::endl;
+              std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
+                        << "contiene un diccionario depalabras aceptadas en el idioma inglés (idioma" << std::endl
+                        << "original del juego). A diferencia del comando init, este comando almacena las" <<std::endl
+                        << "palabras en uno o más árboles de letras (como se considere conveniente)." << std::endl;
+            }
+            else
+              if( comando == "ayuda init_inverse_tree" )
+              {
+                std::cout << "comando: init_inverse_tree words_file.txt" << std::endl;
+                std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que " << std::endl
+                          << "contiene un diccionario de palabras aceptadas en el idioma inglés (idioma " << std::endl
+                          << "original del juego). A diferencia de los comandos init_inverse e init_tree, este" << std::endl
+                          << "comando almacena las palabras en uno o más árboles de letras, pero en sentido " << std::endl
+                          << "inverso (leídas de derecha a izquierda). " << std::endl;
+              }
+              else
+                if( comando == "ayuda words_by_prefix" )
+                {
+                  std::cout << "comando: words_by_prefix prefix" << std::endl;
+                  std::cout << "descripcion: Dado un prefijo de pocas letras, el comando recorre el(los)        " << std::endl
+                            << "árbol(es) de letras (construído(s) con el comando init_tree) para ubicar todas" << std::endl
+                            << "las palabras posibles a construir a partir de ese prefijo." << std::endl;
+                }
+                else
+                  if( comando == "ayuda words_by_suffix" )
+                  {
+                    std::cout << "comando: words_by_suffix suffix" << std::endl;
+                    std::cout << "descripcion: Dado un sufijo de pocas letras, el comando recorre el(los)        " << std::endl
+                              << "árbol(es) de letras (construído(s) con el comando init_inverse_tree) para" << std::endl
+                              << "ubicar todas las palabras posibles a construir que terminan con ese sufijo." << std::endl;
+                  }
+                  else
+                    std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
         }
 }
 
