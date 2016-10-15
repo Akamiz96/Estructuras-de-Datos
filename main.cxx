@@ -8,7 +8,7 @@
 
 void ayuda( std::string );
 void leerArchivo( BinaryTreeAVL&, std::string, bool );
-void insertarPalabra(BinaryTreeAVL&, std::string );
+void insertarPalabra(BinaryTreeAVL&, std::string, bool );
 int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
 int scorePalabra( BinaryTreeAVL&, std::string );
@@ -158,9 +158,9 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
       archivo >> linea;
       std::transform(linea.begin(),linea.end(),linea.begin(),::tolower);
       if(tipo == true)
-        insertarPalabra(tree , linea);
+        insertarPalabra(tree , linea, tipo);
       else
-        insertarPalabra(tree, voltearPalabra(linea));
+        insertarPalabra(tree, voltearPalabra(linea), tipo);
     }
     std::cout << std::endl << "----------------------------------------------------" << std::endl;
     std::cout << "El diccionario se inicializo." << std::endl;
@@ -176,16 +176,22 @@ void leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
   }
 }
 
-void insertarPalabra(BinaryTreeAVL& tree, std::string palabra){
+void insertarPalabra(BinaryTreeAVL& tree, std::string palabra, bool tipo){
   if(validarPalabra(palabra) == 1){
     BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
     if(nodoLetra != nullptr){
-      nodoLetra->getData().insertarPalabra(palabra);
+      if(tipo)
+        nodoLetra->getData().insertarPalabra(palabra);
+      else((nodoLetra->getData().getPalabras())[palabra]);
+        nodoLetra->getData().insertarPalabraInv(palabra);
     }
     else{
       NodoVocabulario* nodo = new NodoVocabulario(palabra[0]);
       tree.insert(*nodo);
-      nodo->insertarPalabra(palabra);
+      if(tipo)
+        nodo->insertarPalabra(palabra);
+      else
+        nodo->insertarPalabraInv(palabra);
     }
   }
   else{
@@ -233,8 +239,13 @@ int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
       std::map<std::string, int>::iterator iterador = nodoLetra->getData().getPalabras().find(palabra);
       if(iterador != nodoLetra->getData().getPalabras().end())
         return((nodoLetra->getData().getPalabras())[palabra]);
-      else
-        return (-2);
+      else{
+        iterador = nodoLetra->getData().getPalabrasInv().find(palabra);
+        if(iterador != nodoLetra->getData().getPalabrasInv().end())
+          return ((nodoLetra->getData().getPalabrasInv())[palabra]);
+        else
+          return (-2);
+      }
     }
     else
       return (-2);

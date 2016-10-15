@@ -46,7 +46,7 @@ void NodoVocabulario::insertarPalabra(std::string palabra){
     std::cout << "----------------------------------------------------" << std::endl;
   }
 }
-void NodoVocabulario::insetarPalabraInv(std::string palabraInv){
+void NodoVocabulario::insertarPalabraInv(std::string palabraInv){
   std::pair<std::map<std::string, int>::iterator, bool> insercion;
   insercion = this->palabrasInv.insert(std::pair<std::string, int>(palabraInv, calcularPuntaje(palabraInv)));
   if(insercion.second == false){

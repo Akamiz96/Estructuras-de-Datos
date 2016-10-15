@@ -19,7 +19,7 @@ public:
   std::map<std::string, int> getPalabras();
   std::map<std::string,int> getPalabrasInv();
   void insertarPalabra(std::string palabra);
-  void insetarPalabraInv(std::string palabraInv);
+  void insertarPalabraInv(std::string palabraInv);
 private:
   unsigned int calcularPuntaje(std::string palabra);
 };
