@@ -21,6 +21,7 @@ std::string voltearPalabra(std::string palabra);
 int scorePalabra( BinaryTreeAVL&, std::string );
 bool leerArchivoXLetras( std::map<char, Arboles>, std::string, bool );
 void insertarPalabraXLetras(std::map<char, Arboles>, std::string, bool );
+std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
 
 int main()
 {
@@ -382,5 +383,15 @@ void insertarPalabraXLetras(std::map<char, Arboles> tree_letras, std::string pal
     std::cout << "ERROR" << std::endl;
     std::cout << "La palabra: " << palabra << " tiene caracteres invalidos." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
+  }
+}
+
+std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::string prefijo )
+{
+  std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
+  if( itTree_letras != tree_letras.end() )
+  {
+    Arboles aux = itTree_letras->second;
+    std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
   }
 }

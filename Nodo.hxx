@@ -70,3 +70,13 @@ void Node::insertarPalabra(std::string palabra){
     }
   }
 }
+void Node::prefix( std::list< std::string >& palabras, std::string& palabra )
+{
+  palabra.push_back( this->data );
+	for( std::list < Node* >::const_iterator iterador = ( this->desc ).begin(); iterador != ( this->desc ).end(); iterador++)
+  {
+		( *iterador )->prefix( palabras, palabra );
+	}
+  palabras.push_back( palabra );
+  palabra.pop_back();
+}
