@@ -2,14 +2,14 @@
 #include <list>
 
 Arbol::Arbol(){
-
+	this->root = nullptr;
 }
 Arbol::Arbol(char val)
 {
     this->root=new Node(val);
 }
 Arbol::~Arbol(){
-
+	this->root = nullptr;
 }
 
 bool Arbol::isEmpty(){
@@ -45,4 +45,11 @@ std::list<Node*> Arbol::descendants(Node* inicio){
 		descendiente=node->descendants();
 	}
     return descendiente;
+}
+
+void Arbol::insertarPalabra(std::string palabra){
+	if(palabra[0] == this->root->getData()){
+		palabra.erase(palabra.begin());
+		this->root->insertarPalabra(palabra);
+	}
 }

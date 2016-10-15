@@ -53,4 +53,20 @@ std::list<Node*> Node::descendants(){
 	return descendientes;
 }
 
-
+void Node::insertarPalabra(std::string palabra){
+  if(!palabra.empty()){
+    Node* node = nullptr;
+    for(std::list<Node*>:: iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
+      if((*iterador)->getData() == palabra[0])
+        node = *iterador;
+    }
+    if(node != nullptr){
+      palabra.erase(palabra.begin());
+  		node->insertarPalabra(palabra);
+    }
+    else{
+      this->addDesc(palabra[0]);
+      this->insertarPalabra(palabra);
+    }
+  }
+}

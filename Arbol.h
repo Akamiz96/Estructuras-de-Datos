@@ -15,6 +15,7 @@ class Arbol{
 		bool insertNode(char& father, char& n);
 		bool search(char& n);
 		std::list<Node*> descendants(Node* inicio);
+		void insertarPalabra(std::string palabra);
 };
 #include "Arbol.hxx"
 #endif
