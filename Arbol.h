@@ -7,14 +7,14 @@ class Arbol{
 		Node* root;
 	public:
 		Arbol();
-		Arbol(char& val);
+		Arbol(char val);
 		~Arbol();
 		bool isEmpty();
 		Node* getRoot();
 		void setRoot(Node* nroot);
 		bool insertNode(char& father, char& n);
 		bool search(char& n);
-		void descendants(Node* inicio);
+		std::list<Node*> descendants(Node* inicio);
 };
 #include "Arbol.hxx"
 #endif

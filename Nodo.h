@@ -8,13 +8,14 @@ class Node{
 	std::list <Node*> desc;
 	public:
 	Node();
+	Node(char val);
 	~Node();
 	char& getData();
 	std::list <Node*>& getDesc();
 	void setData (char& val);
 	void addDesc (char& nval);
 	Node* search(char& val);
-	void descendants();
+	std::list<Node*> descendants();
 };
 #include "Nodo.hxx"
 

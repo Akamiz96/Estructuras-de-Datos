@@ -1,47 +1,48 @@
 #include "Arbol.h"
 #include <list>
 
-Arbol<char>::Arbol(){
+Arbol::Arbol(){
+
+}
+Arbol::Arbol(char val)
+{
+    this->root=new Node(val);
+}
+Arbol::~Arbol(){
 
 }
 
-Arbol<char>::~Arbol(){
-
-}
-
-bool Arbol<char>::isEmpty(){
+bool Arbol::isEmpty(){
 	return (this->root == nullptr) ? true : false;
 }
 
-Node<char>* Arbol<char>::getRoot(){
+Node* Arbol::getRoot(){
 	return this->root;
 }
 
-void Arbol<char>::setRoot(Node<char>* nroot){
+void Arbol::setRoot(Node* nroot){
 	this->root = nroot;
 }
 
-bool Arbol<char>::insertNode(char& father, char& n){
-	Node<char>* fatherNode = this->root->search(father);
+bool Arbol::insertNode(char& father, char& n){
+	Node* fatherNode = this->root->search(father);
 	if(fatherNode != nullptr){
 		fatherNode->addDesc(n);
-		std::cout << "Valor insertado: " << n << std::endl;
 		return true;
 	}
 	return false;
 }
 
 
-bool Arbol<char>::search(char& n){
+bool Arbol::search(char& n){
 	return (this->root->search(n) == nullptr) ? false : true;
 }
 
-
-
-
-void Arbol<char>::descendants(Node<char>* inicio){
-	Node<T>* node = (this->getRoot())->search(inicio->getData());
+std::list<Node*> Arbol::descendants(Node* inicio){
+	Node* node = (this->getRoot())->search(inicio->getData());
+	std::list<Node*> descendiente;
 	if(node != nullptr){
-		node->descendants();
+		descendiente=node->descendants();
 	}
+    return descendiente;
 }

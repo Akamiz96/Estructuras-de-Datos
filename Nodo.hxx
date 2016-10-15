@@ -1,39 +1,43 @@
 #include "Nodo.h"
 #include <list>
 
-Node<char>::Node(){
+Node::Node(){
 
 }
 
-Node<char>::~Node(){
+Node::Node(char val){
+    this->data=val;
+}
+
+Node::~Node(){
 
 }
 
-char& Node<char>::getData(){
+char& Node::getData(){
 	return (this->data);
 }
 
-std::list<Node<char>*>& Node<char>::getDesc(){
+std::list<Node*>& Node::getDesc(){
 	return (this->desc);
 }
 
-void Node<char>::setData(char& val){
+void Node::setData(char& val){
 	this->data = val;
 }
 
 
-void Node<char>::addDesc(char& nval){
-	Node<char> * node = new Node<T>;
-	node->setData(nval);
+void Node::addDesc(char& nval){
+	Node * node = new Node();
+	node->data=nval;
 	this->desc.push_back(node);
 }
 
 
-Node<char>* Node<char>::search(char& val){
+Node* Node::search(char& val){
 	if(this->data == val)
 		return this;
-	for(typename std::list<Node <char>*>::iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
-		Node<char>* node = (*iterador)->search(val);
+	for(typename std::list<Node*>::iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
+		Node* node = (*iterador)->search(val);
 		if(node != nullptr)
 			return node;
 	}
@@ -41,11 +45,12 @@ Node<char>* Node<char>::search(char& val){
 }
 
 
-void Node<char>::descendants(){
-	std::cout << "Father: " << this->data << std::endl;
-	for(typename std::list<Node <char>*>::iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
-			std::cout << "Son: " << (*iterador)->getData() << std::endl;
+std::list<Node*> Node::descendants(){
+	std::list<Node*> descendientes;
+	for(typename std::list<Node*>::iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
+			descendientes.push_back(*iterador);
 	}
+	return descendientes;
 }
 
 
