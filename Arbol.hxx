@@ -47,13 +47,13 @@ std::list<Node*> Arbol::descendants(Node* inicio){
     return descendiente;
 }
 
-void Arbol::insertarPalabra(std::string palabra){
+void Arbol::insertarPalabra(std::string palabra, bool& insercion){
 	if(palabra[0] == this->root->getData()){
 		palabra.erase(palabra.begin());
-		this->root->insertarPalabra(palabra);
+		this->root->insertarPalabra(palabra, insercion);
 	}
+	insercion = false;
 }
-
 std::list< std::string > Arbol::prefix( std::string prefijo )
 {
   Node* aux = this->root;

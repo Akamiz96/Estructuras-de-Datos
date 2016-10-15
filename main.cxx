@@ -19,8 +19,8 @@ void insertarPalabra(BinaryTreeAVL&, std::string, bool );
 int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
 int scorePalabra( BinaryTreeAVL&, std::string );
-bool leerArchivoXLetras( std::map<char, Arboles>, std::string, bool );
-void insertarPalabraXLetras(std::map<char, Arboles>, std::string, bool );
+bool leerArchivoXLetras( std::map<char, Arboles>&, std::string, bool );
+void insertarPalabraXLetras(std::map<char, Arboles>&, std::string, bool );
 std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
 
 int main()
@@ -87,9 +87,9 @@ int main()
             if( aux == "init_tree" && !init_tree)
             {
               //TODO funcion init_tree
-              std::cout << "INIT TREE" << std::endl;
               init_tree = leerArchivoXLetras( tree_letras, comando, true);
               std::cout << std::endl;
+              std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
             }
             else{
               if( aux == "words_by_prefix" )
@@ -323,14 +323,14 @@ int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
   return (-1);
 }
 
-bool leerArchivoXLetras( std::map<char, Arboles> tree_letras, std::string comando, bool tipo )
+bool leerArchivoXLetras( std::map<char, Arboles>& tree_letras, std::string comando, bool tipo )
 {
   std::string nombreArc, linea;
   nombreArc = comando.substr( comando.find( " " ) + 1 );
   std::ifstream archivo( nombreArc.c_str( ) );
   if( archivo.is_open() )
   {
-    while( !archivo.eof() )
+    do
     {
       archivo >> linea;
       std::transform(linea.begin(),linea.end(),linea.begin(),::tolower);
@@ -338,7 +338,7 @@ bool leerArchivoXLetras( std::map<char, Arboles> tree_letras, std::string comand
         insertarPalabraXLetras(tree_letras , linea, tipo);
       else
         insertarPalabraXLetras(tree_letras, voltearPalabra(linea), tipo);
-    }
+    }while( !archivo.eof() );
     std::cout << std::endl << "----------------------------------------------------" << std::endl;
     std::cout << "El diccionario se inicializo." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
@@ -354,14 +354,15 @@ bool leerArchivoXLetras( std::map<char, Arboles> tree_letras, std::string comand
   }
 }
 
-void insertarPalabraXLetras(std::map<char, Arboles> tree_letras, std::string palabra, bool tipo){
+void insertarPalabraXLetras(std::map<char, Arboles>& tree_letras, std::string palabra, bool tipo){
+  bool inserta = false;
   if(validarPalabra(palabra) == 1){
     std::map<char, Arboles>::iterator iterador = tree_letras.find(palabra[0]);
     if(iterador != tree_letras.end()){
       if(tipo)
-        tree_letras[palabra[0]].dicc.insertarPalabra(palabra);
+        tree_letras[palabra[0]].dicc.insertarPalabra(palabra, inserta);
       else
-        tree_letras[palabra[0]].inverse_dicc.insertarPalabra(palabra);
+        tree_letras[palabra[0]].inverse_dicc.insertarPalabra(palabra, inserta);
     }
     else{
       Arboles * arboles = new Arboles();
@@ -381,9 +382,9 @@ void insertarPalabraXLetras(std::map<char, Arboles> tree_letras, std::string pal
         std::map<char, Arboles>::iterator iterador = tree_letras.find(palabra[0]);
         if(iterador != tree_letras.end()){
           if(tipo)
-            tree_letras[palabra[0]].dicc.insertarPalabra(palabra);
+            tree_letras[palabra[0]].dicc.insertarPalabra(palabra, inserta);
           else
-            tree_letras[palabra[0]].inverse_dicc.insertarPalabra(palabra);
+            tree_letras[palabra[0]].inverse_dicc.insertarPalabra(palabra, inserta);
         }
       }
     }
@@ -392,6 +393,12 @@ void insertarPalabraXLetras(std::map<char, Arboles> tree_letras, std::string pal
     std::cout << "----------------------------------------------------" << std::endl;
     std::cout << "ERROR" << std::endl;
     std::cout << "La palabra: " << palabra << " tiene caracteres invalidos." << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+  }
+  if(!inserta){
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "ERROR" << std::endl;
+    std::cout << "La palabra: " << palabra << " no se pudo ingresar al diccionario." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
   }
 }
