@@ -52,7 +52,8 @@ void Arbol::insertarPalabra(std::string palabra, bool& insercion){
 		palabra.erase(palabra.begin());
 		this->root->insertarPalabra(palabra, insercion);
 	}
-	insercion = false;
+	else
+		insercion = false;
 }
 std::list< std::string > Arbol::prefix( std::string prefijo )
 {

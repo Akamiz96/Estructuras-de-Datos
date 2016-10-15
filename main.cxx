@@ -89,7 +89,7 @@ int main()
               //TODO funcion init_tree
               init_tree = leerArchivoXLetras( tree_letras, comando, true);
               std::cout << std::endl;
-              std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
+              //std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
             }
             else{
               if( aux == "exit" )

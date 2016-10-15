@@ -62,7 +62,6 @@ void Node::insertarPalabra(std::string palabra, bool& insercion){
     }
     if(node != nullptr){
       palabra.erase(palabra.begin());
-      std::cout << palabra << std::endl;
   		node->insertarPalabra(palabra, insercion);
     }
     else{
