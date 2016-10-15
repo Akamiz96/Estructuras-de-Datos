@@ -94,9 +94,9 @@ int main()
             else{
               if( aux == "words_by_prefix" )
               {
-                std::string prefijo = comando.substr( comando.find( " " ) );
+                std::string prefijo = comando.substr( comando.find( " " ) + 1 );
                 std::list< std::string > palabras = prefix( tree_letras, prefijo );
-                for( std::list< std::string >::iterator it = palabras.begin(); it != palabras.end(); ++it )
+                for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
                 {
                   std::cout << *it << std::endl;
                 }
@@ -412,6 +412,7 @@ std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::str
     {
       Arboles aux = itTree_letras->second;
       std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
+      return prefijos;
     }
   }
 }
