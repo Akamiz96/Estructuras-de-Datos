@@ -18,6 +18,7 @@ void insertarPalabra(BinaryTreeAVL&, std::string, bool );
 int validarPalabra( std::string );
 std::string voltearPalabra(std::string palabra);
 int scorePalabra( BinaryTreeAVL&, std::string );
+std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
 
 int main()
 {
@@ -295,4 +296,14 @@ int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
       return (-2);
   }
   return (-1);
+}
+
+std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::string prefijo )
+{
+  std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
+  if( itTree_letras != tree_letras.end() )
+  {
+    Arboles aux = itTree_letras->second;
+    std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
+  }
 }

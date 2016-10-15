@@ -16,6 +16,7 @@ class Node{
 	void addDesc (char& nval);
 	Node* search(char& val);
 	std::list<Node*> descendants();
+	void prefix( std::list< std::string >& palabras, std::string& palabra );
 };
 #include "Nodo.hxx"
 
