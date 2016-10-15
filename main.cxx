@@ -182,7 +182,7 @@ void insertarPalabra(BinaryTreeAVL& tree, std::string palabra, bool tipo){
     if(nodoLetra != nullptr){
       if(tipo)
         nodoLetra->getData().insertarPalabra(palabra);
-      else((nodoLetra->getData().getPalabras())[palabra]);
+      else
         nodoLetra->getData().insertarPalabraInv(palabra);
     }
     else{
