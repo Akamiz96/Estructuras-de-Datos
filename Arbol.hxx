@@ -65,15 +65,14 @@ std::list< std::string > Arbol::prefix( std::string prefijo )
     encontrado = false;
     while( !encontrado )
     {
-      std::list< Node* >::iterator it = ( aux->getDesc() ).begin();
-      if( it != ( aux->getDesc() ).end() )
-      {
-        if( ( *it )->getData() = prefijo[i] )
+      for( std::list< Node* >::iterator it = ( aux->getDesc() ).begin(); it != ( aux->getDesc() ).end(); it++ )
+			{
+        if( ( *it )->getData() == prefijo[i] )
         {
           encontrado = true;
           aux = *it;
+					break;
         }
-        it++;
       }
     }
   }

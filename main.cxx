@@ -97,7 +97,8 @@ int main()
               std::cout << std::endl;
               //std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
             }
-            else{
+            else
+            {
               if( aux == "words_by_prefix" )
               {
                 std::string prefijo = comando.substr( comando.find( " " ) + 1 );
@@ -106,36 +107,38 @@ int main()
                 {
                   std::cout << *it << std::endl;
                 }
-              }
-              if( aux == "words_by_sufix" )
-              {
-                std::string sufijo = comando.substr( comando.find( " " ) + 1 );
-                std::list< std::string > palabras = sufix( sufijo, tree_letras);
-                for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                {
-                  std::cout << *it << std::endl;
-                }
+                std::cout << std::endl;
               }
               else
-                if( aux == "exit" )
-                  exit = true;
-                else
+                if( aux == "words_by_sufix" )
                 {
-                  if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                  std::string sufijo = comando.substr( comando.find( " " ) + 1 );
+                  std::list< std::string > palabras = sufix( sufijo, tree_letras);
+                  for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
                   {
-                    if( init )
-                      std::cout << "Diccionario";
-                    else
-                      std::cout << "Diccionario inverso";
-                    std::cout << " ya ha sido inicializado." << std::endl;
-                    std::cout << std::endl;
+                    std::cout << *it << std::endl;
                   }
+                }
+                else
+                  if( aux == "exit" )
+                    exit = true;
                   else
                   {
-                    std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                    std::cout << std::endl;
+                    if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                    {
+                      if( init )
+                        std::cout << "Diccionario";
+                      else
+                        std::cout << "Diccionario inverso";
+                      std::cout << " ya ha sido inicializado." << std::endl;
+                      std::cout << std::endl;
+                    }
+                    else
+                    {
+                      std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                      std::cout << std::endl;
+                    }
                   }
-              }
             }
           }
         }
