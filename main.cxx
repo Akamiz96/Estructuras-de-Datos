@@ -95,7 +95,13 @@ int main()
               //TODO funcion init_tree
               init_tree = leerArchivoXLetras( tree_letras, comando, true);
               std::cout << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getData()) << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc().front()->getData()) << std::endl;
               std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getData() << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getData() << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getData() << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().front()->getData() << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().size() << std::endl;
             }
             else{
               if( aux == "words_by_prefix" )
