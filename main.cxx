@@ -102,6 +102,12 @@ int main()
               std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getData() << std::endl;
               std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().front()->getData() << std::endl;
               std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().front()->getDesc().size() << std::endl;
+              std::cout << "///////////////////////////////////////" << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getData()) << std::endl;
+              std::list< Node* >::iterator it = tree_letras['a'].dicc.getRoot()->getDesc().begin();
+              it++;
+              std::cout << (*it)->getData() << std::endl;
+              std::cout << (*it)->getDesc().size() << std::endl;
             }
             else{
               if( aux == "words_by_prefix" )
