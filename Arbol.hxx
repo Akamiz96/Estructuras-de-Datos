@@ -54,6 +54,7 @@ void Arbol::insertarPalabra(std::string palabra, bool& insercion){
 	}
 	insercion = false;
 }
+
 std::list< std::string > Arbol::prefix( std::string prefijo )
 {
   Node* aux = this->root;
