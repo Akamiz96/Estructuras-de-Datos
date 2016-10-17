@@ -95,7 +95,7 @@ int main()
               //TODO funcion init_tree
               init_tree = leerArchivoXLetras( tree_letras, comando, true);
               std::cout << std::endl;
-              //std::cout << (tree_letras['z'].dicc.getRoot()->getDesc()).front()->getData() << std::endl;
+              std::cout << (tree_letras['a'].dicc.getRoot()->getDesc()).front()->getDesc().front()->getData() << std::endl;
             }
             else{
               if( aux == "words_by_prefix" )
@@ -354,7 +354,7 @@ bool leerArchivoXLetras( std::map<char, Arboles>& tree_letras, std::string coman
       else
         insertarPalabraXLetras(tree_letras, voltearPalabra(linea), tipo);
     }while( !archivo.eof() );
-    std::cout << std::endl << "-------------char * PLetra---------------------------------------" << std::endl;
+    std::cout << std::endl << "----------------------------------------------------" << std::endl;
     std::cout << "El diccionario se inicializo." << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
     return true;

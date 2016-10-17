@@ -28,7 +28,7 @@ void Node::setData(char& val){
 
 void Node::addDesc(char nval){
 	Node * node = new Node();
-	node->data=nval;
+	node->setData(nval);
 	this->desc.push_back(node);
 }
 
@@ -56,7 +56,7 @@ std::list<Node*> Node::descendants(){
 void Node::insertarPalabra(std::string palabra, bool& insercion){
   if(!palabra.empty()){
     Node* node = nullptr;
-    for(std::list<Node*>:: iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
+    for(std::list<Node*>:: iterator iterador = this->desc.begin(); iterador != this->desc.end() && node == nullptr; iterador++){
       if((*iterador)->getData() == palabra[0])
         node = *iterador;
     }
