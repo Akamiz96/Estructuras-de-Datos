@@ -416,28 +416,30 @@ void insertarPalabraXLetras(std::map<char, Arboles>& tree_letras, std::string pa
 
 std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::string prefijo )
 {
+  std::list< std::string > prefijos;
   if( !tree_letras.empty() )
   {
     std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
     if( itTree_letras != tree_letras.end() )
     {
       Arboles aux = itTree_letras->second;
-      std::list< std::string > prefijos = ( aux.dicc ).fix( prefijo );
-      return prefijos;
+      prefijos = ( aux.dicc ).fix( prefijo );
     }
   }
+  return prefijos;
 }
 
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo )
 {
+    std::list< std::string > sufijos;
   if( !tree_letras.empty() )
   {
     std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( sufijo[0] );
     if( itTree_letras != tree_letras.end() )
     {
       Arboles aux = itTree_letras->second;
-      std::list< std::string > prefijos = ( aux.inverse_dicc ).fix( sufijo );
-      return prefijos;
+       sufijos = ( aux.inverse_dicc ).fix( sufijo );
     }
   }
+  return sufijos;
 }
