@@ -22,6 +22,12 @@ int scorePalabra( BinaryTreeAVL&, std::string );
 bool leerArchivoXLetras( std::map<char, Arboles>&, std::string, bool );
 void insertarPalabraXLetras(std::map<char, Arboles>&, std::string, bool );
 std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
+std::list<std::string> sufix(std::string sufijo,std::map <char,Arboles> tree_letras);
+bool encontrarCamino(std::string cadena,std::list<std::list<Node*>> arbolNivel,Node **quedo);
+std::list<std::list<Node*>> porNiveles(Node raiz);
+bool contienePalabra(std::list<std::string> palabras,std::string palabra);
+std::list<std::string>  sufixHelp(Node* nodo,std::string palabra,std::list<std::string> &palabras);
+
 
 int main()
 {
@@ -96,6 +102,15 @@ int main()
               {
                 std::string prefijo = comando.substr( comando.find( " " ) + 1 );
                 std::list< std::string > palabras = prefix( tree_letras, prefijo );
+                for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                {
+                  std::cout << *it << std::endl;
+                }
+              }
+              if( aux == "words_by_sufix" )
+              {
+                std::string sufijo = comando.substr( comando.find( " " ) + 1 );
+                std::list< std::string > palabras = sufix( sufijo, tree_letras);
                 for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
                 {
                   std::cout << *it << std::endl;
@@ -415,4 +430,127 @@ std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::str
       return prefijos;
     }
   }
+}
+
+std::list<std::string> sufix(std::string sufijo,std::map <char,Arboles> tree_letras)
+{
+    std::list<std::string> palabras;
+    if( !tree_letras.empty() )
+    {
+        std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( sufijo[0] );
+        Arbol arbol=(itTree_letras->second).dicc;
+        std::list<std::list<Node*>> arbolNivel=porNiveles((*arbol.getRoot()));
+        Node* inicio=nullptr;
+        if(encontrarCamino(sufijo,arbolNivel,&inicio))
+        {
+            std::list<Node*> siguientes=(*inicio).descendants();
+            std::list<Node*>::iterator apunSiguen=siguientes.begin();
+            while(apunSiguen!=siguientes.end())
+            {
+                std::string palabra=sufijo;
+                palabra.push_back((*apunSiguen)->getData());
+                palabras=sufixHelp(*apunSiguen,palabra,palabras);
+                apunSiguen++;
+            }
+        }
+    }
+    return palabras;
+}
+
+bool contienePalabra(std::list<std::string> palabras,std::string palabra)
+{
+    for(std::list<std::string>::iterator apun=palabras.begin();apun!=palabras.end();apun++)
+        if(*apun==palabra)
+            return true;
+    return false;
+}
+
+bool encontrarCamino(std::string cadena,std::list<std::list<Node*>> arbolNivel,Node **quedo)
+{
+    std::list<std::list<Node*>>::iterator apun1;
+    std::list<Node*>::iterator apun2;
+    bool camino;
+    for(apun1=arbolNivel.begin();apun1!=arbolNivel.end();apun1++)
+    {
+        for(apun2=(*apun1).begin();apun2!=(*apun1).end();apun2++)
+        {
+            for(unsigned int i=0;i<cadena.size();i++)
+            {
+                if(cadena[i]==(*apun2)->getData())
+                {
+                    camino=true;
+                    *quedo=*apun2;
+                }
+                else
+                    camino=false;
+            }
+            if(camino)
+                return true;
+        }
+    }
+    return false;
+}
+
+std::list<std::list<Node*>> porNiveles(Node raiz)
+{
+    Node *aux1=nullptr;
+    Node *aux2=nullptr;
+    aux1=&raiz;
+    std::list<std::list<Node*>> levels;
+    std::list<Node*> root;
+    root.push_back(aux1);
+    levels.push_back(root);
+    while(aux1!=nullptr&&aux2!=nullptr)
+    {
+        std::list<Node*>nodes=aux1->descendants();
+        aux2=aux1;
+        aux1=*nodes.begin();
+        if(!(aux2=&raiz))
+        {
+            while(aux2!=nullptr)
+            {
+                while(aux1!=nullptr)
+                {
+                    nodes.push_back(aux1);
+                    aux1++;
+                }
+                levels.push_back(nodes);
+                aux2++;
+                aux1=aux2;
+            }
+        }
+        else
+            levels.push_back(nodes);
+    }
+    return levels;
+}
+
+std::list<std::string> sufixHelp(Node* nodo,std::string palabra,std::list<std::string> &palabras)
+{
+    std::list<Node*> siguientes=nodo->getDesc();
+    std::list<Node*>::iterator apunSiguien=siguientes.begin();
+    if(siguientes.empty())
+    {
+        palabra.push_back((*apunSiguien)->getData());
+        if(apunSiguien!=siguientes.end())
+        {
+            if(!contienePalabra(palabras,palabra))
+                palabras.push_back(palabra);
+            apunSiguien++;
+            return sufixHelp(*apunSiguien,palabra,palabras);
+        }
+        else
+        {
+            if(!contienePalabra(palabras,palabra))
+                palabras.push_back(palabra);
+            else
+                return palabras;
+        }
+    }
+    else
+    {
+        palabra.push_back((*apunSiguien)->getData());
+        return sufixHelp(*apunSiguien,palabra,palabras);
+    }
+    return palabras;
 }
