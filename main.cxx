@@ -23,12 +23,14 @@ bool leerArchivoXLetras( std::map<char, Arboles>&, std::string, bool );
 void insertarPalabraXLetras(std::map<char, Arboles>&, std::string, bool );
 std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo );
+unsigned int calcularPuntaje(std::string palabra);
+
 int main()
 {
   BinaryTreeAVL tree;
   std::map<char, Arboles> tree_letras;
   bool exit = false, init = false, init_inverse = false;
-  bool init_tree = false;
+  bool init_tree = false, init_inverse_tree = false;
   std::string comando;
   do
   {
@@ -88,63 +90,76 @@ int main()
             }
             else
             {
-              if( aux == "words_by_prefix" )
+              if( aux == "init_inverse_tree" && !init_inverse_tree )
               {
-                if( init_tree )
-                {
-                  std::string prefijo = comando.substr( comando.find( " " ) + 1 );
-                  if( !prefijo.empty() )
-                  {
-                    std::list< std::string > palabras = prefix( tree_letras, prefijo );
-                    if( !palabras.empty() )
-                    {
-                      std::cout << "Palabras que empiezan por el prefijo " << prefijo << " son: " << std::endl;
-                      for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                      {
-                        std::cout << *it << std::endl;
-                      }
-                    }
-                    else
-                      std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
-                  }
-                  else
-                    std::cout << "El prefijo esta vacio" << std::endl;
-                }
-                else
-                  std::cout << "El diccionario no ha sido inicializado en un Tree" << std::endl;
+                init_inverse_tree = leerArchivoXLetras( tree_letras, comando, false );
                 std::cout << std::endl;
               }
               else
-                if( aux == "words_by_sufix" )
+                if( aux == "words_by_prefix" )
                 {
-                    std::string sufijo = comando.substr( comando.find( " " ) + 1 );
-                    std::list< std::string > palabras = sufix( tree_letras, sufijo );
-                    for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                    {
-                    std::cout << *it << std::endl;
-                    }
-                    std::cout << std::endl;
-                }
-                else
-                  if( aux == "exit" )
-                    exit = true;
-                  else
+                  if( init_tree )
                   {
-                    if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                    std::string prefijo = comando.substr( comando.find( " " ) + 1 );
+                    if( !prefijo.empty() )
                     {
-                      if( init )
-                        std::cout << "Diccionario";
+                      std::list< std::string > palabras = prefix( tree_letras, prefijo );
+                      if( !palabras.empty() )
+                      {
+                        std::cout << "Palabras que empiezan por el prefijo " << prefijo << " son: " << std::endl;
+                        for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                          std::cout << *it << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                      }
                       else
-                        std::cout << "Diccionario inverso";
-                      std::cout << " ya ha sido inicializado." << std::endl;
-                      std::cout << std::endl;
+                        std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
                     }
                     else
-                    {
-                      std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                      std::cout << std::endl;
-                    }
+                      std::cout << "El prefijo esta vacio" << std::endl;
                   }
+                  else
+                    std::cout << "El diccionario no ha sido inicializado en un Tree" << std::endl;
+                  std::cout << std::endl;
+                }
+                else
+                  if( aux == "words_by_suffix" )
+                  {
+                    if( init_inverse_tree )
+                    {
+                      std::string sufijo = comando.substr( comando.find( " " ) + 1 );
+                      std::list< std::string > palabras = sufix( tree_letras, voltearPalabra( sufijo ) );
+                      if( !palabras.empty() )
+                      {
+                        std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
+                        for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                          std::cout << voltearPalabra( *it ) << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                      }
+                      else
+                        std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
+                    }
+                    else
+                      std::cout << "El diccionario no ha sido inicializado en un Inverse_Tree" << std::endl;
+                    std::cout << std::endl;
+                  }
+                  else
+                    if( aux == "exit" )
+                      exit = true;
+                    else
+                    {
+                      if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                      {
+                        if( init )
+                          std::cout << "Diccionario";
+                        else
+                          std::cout << "Diccionario inverso";
+                        std::cout << " ya ha sido inicializado." << std::endl;
+                        std::cout << std::endl;
+                      }
+                      else
+                      {
+                        std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                        std::cout << std::endl;
+                      }
+                    }
             }
           }
         }
@@ -444,15 +459,37 @@ std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::str
 
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo )
 {
-    std::list< std::string > sufijos;
+  std::list< std::string > sufijos;
   if( !tree_letras.empty() )
   {
     std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( sufijo[0] );
     if( itTree_letras != tree_letras.end() )
     {
       Arboles aux = itTree_letras->second;
-       sufijos = ( aux.inverse_dicc ).prefix( sufijo );
+      sufijos = ( aux.inverse_dicc ).prefix( sufijo );
     }
   }
   return sufijos;
+}
+
+unsigned int calcularPuntaje(std::string palabra)
+{
+  unsigned int puntaje = 0;
+  for(std::string::iterator iterador = palabra.begin(); iterador != palabra.end(); iterador++){
+    if(*(iterador) == 'e' || *(iterador) == 'a' || *(iterador) == 'i' || *(iterador) == 'o' || *(iterador) == 'n' || *(iterador) == 'r' || *(iterador) == 't' || *(iterador) == 'l' || *(iterador) == 's' || *(iterador) == 'u')
+      puntaje ++;
+    if(*(iterador) == 'd' || *(iterador) == 'g')
+      puntaje = puntaje + 2;
+    if(*(iterador) == 'b' || *(iterador) == 'c' || *(iterador) == 'm' || *(iterador) == 'p')
+      puntaje = puntaje + 3;
+    if(*(iterador) == 'f' || *(iterador) == 'h' || *(iterador) == 'v' || *(iterador) == 'w' || *(iterador) == 'y')
+      puntaje = puntaje + 4;
+    if(*(iterador) == 'k')
+      puntaje = puntaje + 5;
+    if(*(iterador) == 'j' || *(iterador) == 'x')
+      puntaje = puntaje + 8;
+    if(*(iterador) == 'q' || *(iterador) == 'z')
+      puntaje = puntaje + 10;
+  }
+  return puntaje;
 }

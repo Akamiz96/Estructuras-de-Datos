@@ -83,6 +83,10 @@ void Node::prefix( std::list< std::string >& palabras, std::string& palabra )
 	    ( *iterador )->prefix( palabras, palabra );
 	  }
   if( ( this->desc ).empty() )
-    palabras.push_back( palabra );
+  {
+    std::list< std::string >::iterator it = std::find( palabras.begin(), palabras.end(), palabra );
+    if( it == palabras.end() )
+      palabras.push_back( palabra );
+  }
   palabra.pop_back();
 }
