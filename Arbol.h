@@ -16,7 +16,7 @@ class Arbol{
 		bool search(char& n);
 		std::list<Node*> descendants(Node* inicio);
 		void insertarPalabra(std::string palabra, bool& insercion);
-		std::list< std::string > fix( std::string prefijo );
+		std::list< std::string > prefix( std::string prefijo );
 };
 #include "Arbol.hxx"
 #endif

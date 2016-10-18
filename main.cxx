@@ -423,7 +423,7 @@ std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::str
     if( itTree_letras != tree_letras.end() )
     {
       Arboles aux = itTree_letras->second;
-      prefijos = ( aux.dicc ).fix( prefijo );
+      prefijos = ( aux.dicc ).prefix( prefijo );
     }
   }
   return prefijos;
@@ -438,7 +438,7 @@ std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::stri
     if( itTree_letras != tree_letras.end() )
     {
       Arboles aux = itTree_letras->second;
-       sufijos = ( aux.inverse_dicc ).fix( sufijo );
+       sufijos = ( aux.inverse_dicc ).prefix( sufijo );
     }
   }
   return sufijos;
