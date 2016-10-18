@@ -50,7 +50,6 @@ int main()
     {
       if( aux == "init_inverse" && !init_inverse )
       {
-        //TODO funcion init_inverse
         init_inverse = leerArchivo( tree, comando, false);
         std::cout << std::endl;
       }
@@ -59,7 +58,6 @@ int main()
         if( aux == "score" )
         {
           std::string palabra = comando.substr( comando.find( " " ) + 1 );
-          //TODO funcion score
           int scoreP = scorePalabra(tree, palabra);
           if(scoreP == -1){
             std::cout << "----------------------------------------------------" << std::endl;
@@ -84,15 +82,13 @@ int main()
         {
           if( aux == "init" && !init )
           {
-            //TODO funcion init
             init = leerArchivo( tree, comando, true);
             std::cout << std::endl;
           }
           else
           {
-            if( aux == "init_tree" && !init_tree)
+            if( aux == "init_tree" && !init_tree )
             {
-              //TODO funcion init_tree
               init_tree = leerArchivoXLetras( tree_letras, comando, true);
               std::cout << std::endl;
               std::cout << (tree_letras['a'].dicc.getRoot()->getData()) << std::endl;
@@ -113,12 +109,25 @@ int main()
             {
               if( aux == "words_by_prefix" )
               {
-                std::string prefijo = comando.substr( comando.find( " " ) + 1 );
-                std::list< std::string > palabras = prefix( tree_letras, prefijo );
-                for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                if( init_tree )
                 {
-                  std::cout << *it << std::endl;
+                  std::string prefijo = comando.substr( comando.find( " " ) + 1 );
+                  if( !prefijo.empty() )
+                  {
+                    std::list< std::string > palabras = prefix( tree_letras, prefijo );
+                    if( !palabras.empty() )
+                      for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                      {
+                        std::cout << *it << std::endl;
+                      }
+                    else
+                      std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
+                  }
+                  else
+                    std::cout << "El prefijo esta vacio" << std::endl;
                 }
+                else
+                  std::cout << "El diccionario no ha sido inicializado en un Tree" << std::endl;
                 std::cout << std::endl;
               }
               else
@@ -435,15 +444,12 @@ void insertarPalabraXLetras(std::map<char, Arboles>& tree_letras, std::string pa
 
 std::list< std::string > prefix( std::map< char, Arboles > tree_letras, std::string prefijo )
 {
-  if( !tree_letras.empty() )
+  std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
+  if( itTree_letras != tree_letras.end() )
   {
-    std::map< char, Arboles >::iterator itTree_letras = tree_letras.find( prefijo[0] );
-    if( itTree_letras != tree_letras.end() )
-    {
-      Arboles aux = itTree_letras->second;
-      std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
-      return prefijos;
-    }
+    Arboles aux = itTree_letras->second;
+    std::list< std::string > prefijos = ( aux.dicc ).prefix( prefijo );
+    return prefijos;
   }
 }
 
