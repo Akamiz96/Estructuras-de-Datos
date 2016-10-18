@@ -63,28 +63,25 @@ std::list< std::string > Arbol::prefix( std::string prefijo )
   for( int i = 1; i < prefijo.size() && encontrado; i++ )
   {
     encontrado = false;
-    //while( !encontrado )
-    //{
-      for( std::list< Node* >::iterator it = ( aux->getDesc() ).begin(); it != ( aux->getDesc() ).end(); it++ )
-			{
-        if( ( *it )->getData() == prefijo[i] )
-        {
-          encontrado = true;
-          aux = *it;
-					break;
-        }
+    for( std::list< Node* >::iterator it = ( aux->getDesc() ).begin(); it != ( aux->getDesc() ).end(); it++ )
+		{
+      if( ( *it )->getData() == prefijo[i] )
+      {
+        encontrado = true;
+        aux = *it;
+				break;
       }
-    //}
+    }
   }
+  std::string palabra = prefijo;
+  std::list< std::string > palabras;
 	if( encontrado )
 	{
-  	std::string palabra = prefijo;
-  	std::list< std::string > palabras;
   	for( std::list < Node* >::const_iterator iterador = ( aux->getDesc() ).begin();
          iterador != ( aux->getDesc() ).end(); iterador++)
   	{
 			( *iterador )->prefix( palabras, palabra );
 		}
-  	return palabras;
 	}
+  return palabras;
 }

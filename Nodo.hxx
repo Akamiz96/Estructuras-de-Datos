@@ -70,6 +70,8 @@ void Node::insertarPalabra(std::string palabra, bool& insercion){
       insercion = true;
     }
   }
+  else
+    this->addDesc('\0');
 }
 
 void Node::prefix( std::list< std::string >& palabras, std::string& palabra )
