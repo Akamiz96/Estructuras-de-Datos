@@ -101,23 +101,29 @@ int main()
                   if( init_tree )
                   {
                     std::string prefijo = comando.substr( comando.find( " " ) + 1 );
-                    if( !prefijo.empty() )
+                    if( !prefijo.empty())
                     {
-                      std::list< std::string > palabras = prefix( tree_letras, prefijo );
-                      if( !palabras.empty() )
+                      if(validarPalabra(prefijo) == 1)
                       {
-                        std::cout << "Palabras que empiezan por el prefijo " << prefijo << " son: " << std::endl;
-                        for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                          std::cout << *it << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                        std::transform(prefijo.begin(),prefijo.end(),prefijo.begin(),::tolower);
+                        std::list< std::string > palabras = prefix( tree_letras, prefijo );
+                        if( !palabras.empty() )
+                        {
+                          std::cout << "Palabras que empiezan por el prefijo " << prefijo << " son: " << std::endl;
+                          for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                            std::cout << *it << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                        }
+                        else
+                          std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
                       }
                       else
-                        std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
+                      std::cout << "El prefijo ingresado es invalido" << std::endl;
                     }
                     else
                       std::cout << "El prefijo esta vacio" << std::endl;
                   }
                   else
-                    std::cout << "El diccionario no ha sido inicializado en un Tree" << std::endl;
+                    std::cout << "El diccionario no ha sido inicializado con el comando init_tree" << std::endl;
                   std::cout << std::endl;
                 }
                 else
@@ -126,18 +132,29 @@ int main()
                     if( init_inverse_tree )
                     {
                       std::string sufijo = comando.substr( comando.find( " " ) + 1 );
-                      std::list< std::string > palabras = sufix( tree_letras, voltearPalabra( sufijo ) );
-                      if( !palabras.empty() )
+                      if(!sufijo.empty())
                       {
-                        std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
-                        for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                          std::cout << voltearPalabra( *it ) << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                        if(validarPalabra(sufijo)==1)
+                        {
+                          std::transform(sufijo.begin(),sufijo.end(),sufijo.begin(),::tolower);
+                          std::list< std::string > palabras = sufix( tree_letras, voltearPalabra( sufijo ) );
+                          if( !palabras.empty() )
+                          {
+                            std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
+                            for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                              std::cout << voltearPalabra( *it ) << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                          }
+                          else
+                            std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
+                        }
+                        else
+                          std::cout << "El prefijo ingresado es invalido" << std::endl;
                       }
                       else
-                        std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
+                        std::cout << "El sufijo esta vacio" << std::endl;
                     }
                     else
-                      std::cout << "El diccionario no ha sido inicializado en un Inverse_Tree" << std::endl;
+                      std::cout << "El diccionario no ha sido inicializado con el comando init_inverse_tree" << std::endl;
                     std::cout << std::endl;
                   }
                   else
