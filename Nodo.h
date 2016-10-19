@@ -15,7 +15,6 @@ class Node{
 	void setData (char& val);
 	void addDesc (char nval);
 	Node* search(char& val);
-	std::list<Node*> descendants();
 	void insertarPalabra(std::string palabra, bool& insercion);
 	void prefix( std::list< std::string >& palabras, std::string& palabra );
 };

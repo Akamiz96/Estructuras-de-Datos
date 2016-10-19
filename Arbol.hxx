@@ -42,7 +42,7 @@ std::list<Node*> Arbol::descendants(Node* inicio){
 	Node* node = (this->getRoot())->search(inicio->getData());
 	std::list<Node*> descendiente;
 	if(node != nullptr){
-		descendiente=node->descendants();
+		descendiente=node->getDesc();
 	}
     return descendiente;
 }

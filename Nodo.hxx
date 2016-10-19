@@ -44,15 +44,6 @@ Node* Node::search(char& val){
 	return nullptr;
 }
 
-
-std::list<Node*> Node::descendants(){
-	std::list<Node*> descendientes;
-	for(typename std::list<Node*>::iterator iterador = this->desc.begin(); iterador != this->desc.end(); iterador++){
-			descendientes.push_back(*iterador);
-	}
-	return descendientes;
-}
-
 void Node::insertarPalabra(std::string palabra, bool& insercion){
   if(!palabra.empty()){
     Node* node = nullptr;
