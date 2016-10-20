@@ -162,12 +162,18 @@ int main()
                       exit = true;
                     else
                     {
-                      if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) )
+                      if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
                       {
-                        if( init )
+                        if( aux == "init" && init )
                           std::cout << "Diccionario";
                         else
-                          std::cout << "Diccionario inverso";
+                          if( aux == "init_inverse" && init_inverse )
+                            std::cout << "Diccionario inverso";
+                          else
+                            if( aux == "init_tree" && init_tree )
+                              std::cout << "Diccionario Tree";
+                            else
+                              std::cout << "Diccionario Tree inverso";
                         std::cout << " ya ha sido inicializado." << std::endl;
                         std::cout << std::endl;
                       }
