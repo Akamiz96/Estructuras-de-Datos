@@ -111,7 +111,7 @@ int main()
                         {
                           std::cout << "Palabras que empiezan por el prefijo " << prefijo << " son: " << std::endl;
                           for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                            std::cout << *it << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                            std::cout << *it << " Longitud: " << (( *it ).size() - 1) << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
                         }
                         else
                           std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
@@ -142,7 +142,7 @@ int main()
                           {
                             std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
                             for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                              std::cout << voltearPalabra( *it ) << " Longitud: " << ( *it ).size() << " Puntaje: " << calcularPuntaje( *it ) << std::endl;
+                              std::cout << voltearPalabra( *it ) << " Longitud: " << (( *it ).size() - 1)<< " Puntaje: " << calcularPuntaje( *it ) << std::endl;
                           }
                           else
                             std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
@@ -366,6 +366,7 @@ std::string voltearPalabra(std::string palabra)
 
 int scorePalabra(BinaryTreeAVL& tree, std::string palabra){
   if(validarPalabra(palabra) == 1){
+    std::transform(palabra.begin(),palabra.end(),palabra.begin(),::tolower);
     BinaryNodeAVL* nodoLetra = tree.search(palabra[0]);
     if(nodoLetra != nullptr){
       std::map<std::string, int>::iterator iterador = nodoLetra->getData().getPalabras().find(palabra);
