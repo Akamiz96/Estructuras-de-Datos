@@ -566,5 +566,26 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
 
 bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
 {
-  return palabra1.compare(palabra2) == 1;
+    if(cadena1.empty()||cadena2.empty())
+        return false;
+    if(cadena1.size()==cadena2.size())
+    {
+        std::string palabraMenor;
+        std::string palabraMayor;
+        palabraMayor=cadena1;
+        palabraMenor=cadena2;
+        int contDiferencia=0;
+        std::string::iterator itPalabraMenor=palabraMenor.begin();
+        for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
+        {
+            if(*itPalabraMayor!=*itPalabraMenor)
+                contDiferencia++;
+            itPalabraMenor++;
+        }
+        if(contDiferencia<=1)
+            return true;
+        else
+            return false;
+    }
+    return false;
 }
