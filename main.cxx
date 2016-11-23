@@ -563,5 +563,56 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
 
 bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
 {
-  return palabra1.compare(palabra2) == 1;
+    if(cadena1.empty()||cadena2.empty())
+        return false;
+    if(cadena1.size()==cadena2.size())
+    {
+        std::string palabraMenor;
+        std::string palabraMayor;
+        std::string aux;
+        palabraMayor=cadena1;
+        palabraMenor=cadena2;
+        std::string::iterator itPalabraMenor=palabraMenor.begin();
+        for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
+        {
+            aux.push_back(*itPalabraMayor);
+            itPalabraMenor++;
+        }
+        if(aux==cadena2)
+            return true;
+        else
+            return false;
+    }
+    else
+    {
+        std::string palabraMenor;
+        std::string palabraMayor;
+        std::string aux;
+        if(cadena1.size()<cadena2.size())
+        {
+            if((cadena2.size()-cadena2.size())>2)
+                return false;
+            palabraMayor=cadena2;
+            palabraMenor=cadena1;
+        }
+        else
+        {
+            if((cadena1.size()-cadena2.size())>2)
+                return false;
+            palabraMayor=cadena1;
+            palabraMenor=cadena2;
+        }
+          std::string::iterator itPalabraMayor=palabraMayor.begin();
+        for(std::string::iterator itPalabraMenor=palabraMenor.begin();itPalabraMenor!=palabraMenor.end();itPalabraMenor++)
+        {
+            aux.push_back(*itPalabraMenor);
+            itPalabraMayor++;
+        }
+
+            if(aux==palabraMenor)
+                return true;
+            else
+                return false;
+    }
+    return false;
 }
