@@ -64,7 +64,7 @@ int main()
             std::cout << "La palabra " << palabra << " tiene caracteres invalidos." << std::endl;
             std::cout << "----------------------------------------------------" << std::endl;
           }
-          else{
+          else {
             if(scoreP == -2){
               std::cout << "----------------------------------------------------" << std::endl;
               std::cout << "ERROR" << std::endl;
@@ -120,7 +120,7 @@ int main()
                           std::cout << "No hay coincidencias con el prefijo ingresado" << std::endl;
                       }
                       else
-                      std::cout << "El prefijo ingresado es invalido" << std::endl;
+                        std::cout << "El prefijo ingresado es invalido" << std::endl;
                     }
                     else
                       std::cout << "El prefijo esta vacio" << std::endl;
@@ -129,77 +129,65 @@ int main()
                     std::cout << "El diccionario no ha sido inicializado con el comando init_tree" << std::endl;
                   std::cout << std::endl;
                 }
-                else
-                  if( aux == "words_by_suffix" )
+                else if( aux == "words_by_suffix" )
+                {
+                  if( init_inverse_tree )
                   {
-                    if( init_inverse_tree )
+                    std::string sufijo = comando.substr( comando.find( " " ) + 1 );
+                    if(!sufijo.empty())
                     {
-                      std::string sufijo = comando.substr( comando.find( " " ) + 1 );
-                      if(!sufijo.empty())
+                      if(validarPalabra(sufijo)==1)
                       {
-                        if(validarPalabra(sufijo)==1)
+                        std::transform(sufijo.begin(),sufijo.end(),sufijo.begin(),::tolower);
+                        std::list< std::string > palabras = sufix( tree_letras, voltearPalabra( sufijo ) );
+                        if( !palabras.empty() )
                         {
-                          std::transform(sufijo.begin(),sufijo.end(),sufijo.begin(),::tolower);
-                          std::list< std::string > palabras = sufix( tree_letras, voltearPalabra( sufijo ) );
-                          if( !palabras.empty() )
-                          {
-                            std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
-                            for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
-                              std::cout << voltearPalabra( *it ) << " Longitud: " << (( *it ).size() - 1)<< " Puntaje: " << calcularPuntaje( *it ) << std::endl;
-                          }
-                          else
-                            std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
+                          std::cout << "Palabras que terminan con el sufijo " << sufijo << " son: " << std::endl;
+                          for( std::list< std::string >::reverse_iterator it = palabras.rbegin(); it != palabras.rend(); ++it )
+                            std::cout << voltearPalabra( *it ) << " Longitud: " << (( *it ).size() - 1)<< " Puntaje: " << calcularPuntaje( *it ) << std::endl;
                         }
                         else
-                          std::cout << "El prefijo ingresado es invalido" << std::endl;
+                          std::cout << "No hay coincidencias con el sufijo ingresado" << std::endl;
                       }
                       else
-                        std::cout << "El sufijo esta vacio" << std::endl;
+                        std::cout << "El prefijo ingresado es invalido" << std::endl;
                     }
                     else
-                      std::cout << "El diccionario no ha sido inicializado con el comando init_inverse_tree" << std::endl;
-                    std::cout << std::endl;
+                      std::cout << "El sufijo esta vacio" << std::endl;
                   }
                   else
-                    if( aux == "words_graph")
+                    std::cout << "El diccionario no ha sido inicializado con el comando init_inverse_tree" << std::endl;
+                  std::cout << std::endl;
+                }
+                  else if( aux == "exit" )
+                    exit = true;
+                  else
+                  {
+                    if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
                     {
-                      std::cout << "/* message */" << std::endl;
-                      llenarGrafo(grafo,tree);
+                      if( aux == "init" && init )
+                        std::cout << "Diccionario";
+                      else if( aux == "init_inverse" && init_inverse )
+                        std::cout << "Diccionario inverso";
+                      else if( aux == "init_tree" && init_tree )
+                        std::cout << "Diccionario Tree";
+                      else
+                        std::cout << "Diccionario Tree inverso";
+                      std::cout << " ya ha sido inicializado." << std::endl;
+                      std::cout << std::endl;
                     }
                     else
                     {
-                      if( aux == "exit" )
-                        exit = true;
-                      else
-                      {
-                        if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
-                        {
-                          if( aux == "init" && init )
-                            std::cout << "Diccionario";
-                          else
-                            if( aux == "init_inverse" && init_inverse )
-                              std::cout << "Diccionario inverso";
-                            else
-                              if( aux == "init_tree" && init_tree )
-                                std::cout << "Diccionario Tree";
-                              else
-                                std::cout << "Diccionario Tree inverso";
-                          std::cout << " ya ha sido inicializado." << std::endl;
-                          std::cout << std::endl;
-                        }
-                        else
-                        {
-                          std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                          std::cout << std::endl;
-                        }
-                      }
+                      std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                      std::cout << std::endl;
                     }
+                  }
             }
           }
         }
       }
     }
-  }while( !exit );
+  } while( !exit );
   return 0;
 }
 
@@ -213,79 +201,93 @@ void ayuda( std::string comando )
               << "(idioma original del juego). A diferencia del comando init, este comando" << std::endl
               << "almacena las palabras en sentido inverso (leidas de derecha a izquierda)" << std::endl;
   }
+  else if( comando == "ayuda init" )
+  {
+    std::cout << "comando: init words_file.txt" << std::endl;
+    std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
+              << "contiene un diccionario de palabras aceptadas en el idioma ingles (idioma" << std::endl
+              << "original del juego)." << std::endl << std::endl;
+  }
+  else if( comando == "ayuda score" )
+  {
+    std::cout << "comando: score word" << std::endl;
+    std::cout << "descripcion: El comando permite conocer la puntuacion que puede obtenerse con" << std::endl
+              << "una palabra dada, de acuerdo a la tabla de puntuacion de cada letra." << std::endl;
+  }
+  else if( comando == "ayuda exit" )
+  {
+    std::cout << "comando: exit" << std::endl;
+    std::cout << "descripcion: Termina la ejecucion de la aplicacion." << std::endl;
+  }
   else
-    if( comando == "ayuda init" )
+  {
+    if( comando == "ayuda" )
     {
-      std::cout << "comando: init words_file.txt" << std::endl;
+      std::cout << "Teclee \"ayuda <comando>\" para obtener más informacion del comando" << std::endl;
+      std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl
+                << "\tinit_inverse [nombre del archivo]" << std::endl
+                << "\tinit_tree [nombre del archivo]" << std::endl
+                << "\tinit_inverse_tree [nombre del archivo]" << std::endl
+                << "\twords_by_prefix [prefijo]" << std::endl
+                << "\twords_by_suffix [sufijo]" << std::endl
+                << "\tscore [palabra]" << std::endl
+                << "\twords_graph" << std::endl
+                << "\tletter_combinations [palabra]" << std::endl
+                << "\texit" << std::endl;
+    }
+    else if( comando == "ayuda init_tree" )
+    {
+      std::cout << "comando: init_tree words_file.txt" << std::endl;
       std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
-                << "contiene un diccionario de palabras aceptadas en el idioma ingles (idioma" << std::endl
-                << "original del juego)." << std::endl << std::endl;
+                << "contiene un diccionario depalabras aceptadas en el idioma inglés (idioma" << std::endl
+                << "original del juego). A diferencia del comando init, este comando almacena las" <<std::endl
+                << "palabras en uno o más árboles de letras (como se considere conveniente)." << std::endl;
+    }
+    else if( comando == "ayuda init_inverse_tree" )
+    {
+      std::cout << "comando: init_inverse_tree words_file.txt" << std::endl;
+      std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que " << std::endl
+                << "contiene un diccionario de palabras aceptadas en el idioma inglés (idioma " << std::endl
+                << "original del juego). A diferencia de los comandos init_inverse e init_tree, este" << std::endl
+                << "comando almacena las palabras en uno o más árboles de letras, pero en sentido " << std::endl
+                << "inverso (leídas de derecha a izquierda). " << std::endl;
+    }
+    else if( comando == "ayuda words_by_prefix" )
+    {
+      std::cout << "comando: words_by_prefix prefix" << std::endl;
+      std::cout << "descripcion: Dado un prefijo de pocas letras, el comando recorre el(los)        " << std::endl
+                << "árbol(es) de letras (construído(s) con el comando init_tree) para ubicar todas" << std::endl
+                << "las palabras posibles a construir a partir de ese prefijo." << std::endl;
+    }
+    else if( comando == "ayuda words_by_suffix" )
+    {
+      std::cout << "comando: words_by_suffix suffix" << std::endl;
+      std::cout << "descripcion: Dado un sufijo de pocas letras, el comando recorre el(los)        " << std::endl
+                << "árbol(es) de letras (construído(s) con el comando init_inverse_tree) para" << std::endl
+                << "ubicar todas las palabras posibles a construir que terminan con ese sufijo." << std::endl;
+    }
+    else if( comando == "ayuda words_graph")
+    {
+      std::cout << "comando: words_graph" << std::endl;
+      std::cout << "descripcion: Con las palabras ya almacenadas en el diccionario, el comando" << std::endl
+                << "construye un grafo de palabras, en donde cada palabra se conecta a las demas si" << std::endl
+                << "y salo sí difieren en un unica letra (con las demas letras iguales y en las" << std::endl
+                << "mismas posiciones)." << std::endl;
+    }
+    else if( comando == "ayuda letter_combinations" )
+    {
+      std::cout << "comando: letter_combinations letters" << std::endl;
+      std::cout << "descripción: Dadas ciertas letras en una cadena de caracteres, el comando debe" << std::endl
+                << "presentar en pantalla todas las posibles palabras válidas a construir," << std::endl
+                << "indicando la longitud de cada una y la puntuación que se puede obtener con cada" << std::endl
+                << "una. En las letras de la cadena de caracteres, puede admitirse un único símbolo" << std::endl
+                << "comodín (?), el cual representará una letra desconocida y permitirá generar" << std::endl
+                << "mayores posibilidades de palabras a construir. Para este propósito, el comando" << std::endl
+                << "debe hacer uso del grafo de palabras construído con el comando words_graph." << std::endl;
     }
     else
-      if( comando == "ayuda score" )
-      {
-        std::cout << "comando: score word" << std::endl;
-        std::cout << "descripcion: El comando permite conocer la puntuacion que puede obtenerse con" << std::endl
-                  << "una palabra dada, de acuerdo a la tabla de puntuacion de cada letra." << std::endl;
-      }
-      else
-        if( comando == "ayuda exit" )
-        {
-          std::cout << "comando: exit" << std::endl;
-          std::cout << "descripcion: Termina la ejecucion de la aplicacion." << std::endl;
-        }
-        else
-        {
-          if( comando == "ayuda" )
-          {
-            std::cout << "Teclee \"ayuda <comando>\" para obtener más informacion del comando" << std::endl;
-            std::cout << std::endl << "\tinit [nombre del archivo]" << std::endl
-                      << "\tinit_inverse [nombre del archivo]" << std::endl
-                      << "\tinit_tree [nombre del archivo]" << std::endl
-                      << "\tinit_inverse_tree [nombre del archivo]" << std::endl
-                      << "\twords_by_prefix [prefijo]" << std::endl
-                      << "\twords_by_suffix [sufijo]" << std::endl
-                      << "\tscore [palabra]" << std::endl
-                      << "\texit" << std::endl;
-          }
-          else
-            if( comando == "ayuda init_tree" )
-            {
-              std::cout << "comando: init_tree words_file.txt" << std::endl;
-              std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que" << std::endl
-                        << "contiene un diccionario depalabras aceptadas en el idioma inglés (idioma" << std::endl
-                        << "original del juego). A diferencia del comando init, este comando almacena las" <<std::endl
-                        << "palabras en uno o más árboles de letras (como se considere conveniente)." << std::endl;
-            }
-            else
-              if( comando == "ayuda init_inverse_tree" )
-              {
-                std::cout << "comando: init_inverse_tree words_file.txt" << std::endl;
-                std::cout << "descripcion: Inicializa el sistema a partir del archivo words_file.txt, que " << std::endl
-                          << "contiene un diccionario de palabras aceptadas en el idioma inglés (idioma " << std::endl
-                          << "original del juego). A diferencia de los comandos init_inverse e init_tree, este" << std::endl
-                          << "comando almacena las palabras en uno o más árboles de letras, pero en sentido " << std::endl
-                          << "inverso (leídas de derecha a izquierda). " << std::endl;
-              }
-              else
-                if( comando == "ayuda words_by_prefix" )
-                {
-                  std::cout << "comando: words_by_prefix prefix" << std::endl;
-                  std::cout << "descripcion: Dado un prefijo de pocas letras, el comando recorre el(los)        " << std::endl
-                            << "árbol(es) de letras (construído(s) con el comando init_tree) para ubicar todas" << std::endl
-                            << "las palabras posibles a construir a partir de ese prefijo." << std::endl;
-                }
-                else
-                  if( comando == "ayuda words_by_suffix" )
-                  {
-                    std::cout << "comando: words_by_suffix suffix" << std::endl;
-                    std::cout << "descripcion: Dado un sufijo de pocas letras, el comando recorre el(los)        " << std::endl
-                              << "árbol(es) de letras (construído(s) con el comando init_inverse_tree) para" << std::endl
-                              << "ubicar todas las palabras posibles a construir que terminan con ese sufijo." << std::endl;
-                  }
-                  else
-                    std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-        }
+      std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+  }
 }
 
 bool leerArchivo( BinaryTreeAVL& tree, std::string comando, bool tipo )
