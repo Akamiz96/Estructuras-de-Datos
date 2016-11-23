@@ -584,36 +584,5 @@ bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
         else
             return false;
     }
-    else
-    {
-        std::string palabraMenor;
-        std::string palabraMayor;
-        std::string aux;
-        if(cadena1.size()<cadena2.size())
-        {
-            if((cadena2.size()-cadena2.size())>2)
-                return false;
-            palabraMayor=cadena2;
-            palabraMenor=cadena1;
-        }
-        else
-        {
-            if((cadena1.size()-cadena2.size())>2)
-                return false;
-            palabraMayor=cadena1;
-            palabraMenor=cadena2;
-        }
-          std::string::iterator itPalabraMayor=palabraMayor.begin();
-        for(std::string::iterator itPalabraMenor=palabraMenor.begin();itPalabraMenor!=palabraMenor.end();itPalabraMenor++)
-        {
-            aux.push_back(*itPalabraMenor);
-            itPalabraMayor++;
-        }
-
-            if(aux==palabraMenor)
-                return true;
-            else
-                return false;
-    }
     return false;
 }
