@@ -543,21 +543,24 @@ unsigned int calcularPuntaje(std::string palabra)
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
     if(grafo == nullptr){
       grafo = new Graph<std::string>();
-      std::list<NodoVocabulario*> nodos = tree.inOrderLista();
-      for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
-        std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
-        if(!(*iteradorLista)->getPalabras().empty())
-          for(auto& iterador : (*iteradorLista)->getPalabras()){
-            std::string* palabra = new std::string(iterador.first);
-            std::cout << "\tPalabra: " << *palabra << std::endl;
-            grafo->addVertex(*palabra);
-          }
-        if(!(*iteradorLista)->getPalabrasInv().empty())
-          for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
-            std::cout << "\tPalabra: " << iterador.first << std::endl;
-            grafo->addVertex(iterador.first);
-          }
-      }
+    }
+    std::list<NodoVocabulario*> nodos = tree.inOrderLista();
+    for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
+      std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
+      if(!(*iteradorLista)->getPalabras().empty())
+        for(auto& iterador : (*iteradorLista)->getPalabras()){
+          std::string* palabra = new std::string(iterador.first);
+          std::cout << "\tPalabra: " << *palabra << std::endl;
+          grafo->addVertex(*palabra);
+        }
+      if(!(*iteradorLista)->getPalabrasInv().empty())
+        for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
+          std::cout << "\tPalabra: " << iterador.first << std::endl;
+          grafo->addVertex(iterador.first);
+        }
+    }
+    for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos = grafo->getNodes().begin(); iteradorNodos != grafo->getNodes().end(); iteradorNodos++){
+        std::cout << "Palabra Guardada: " << iteradorNodos->getData() <<std::endl;
     }
 }
 
