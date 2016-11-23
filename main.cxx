@@ -531,18 +531,20 @@ unsigned int calcularPuntaje(std::string palabra)
 
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
     if(grafo == nullptr){
+      grafo = new Graph<std::string>();
       std::list<NodoVocabulario*> nodos = tree.inOrderLista();
       for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
         std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
         if(!(*iteradorLista)->getPalabras().empty())
           for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabras().begin(); iteradorMapa != (*iteradorLista)->getPalabras().end(); iteradorMapa++){
-            std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
-            //grafo->addVertex(iteradorMapa->first);
+            std::string* palabra = new std::string(iteradorMapa->first);
+            std::cout << "\tPalabra: " << *palabra << std::endl;
+            grafo->addVertex(*palabra);
           }
         if(!(*iteradorLista)->getPalabrasInv().empty())
           for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabrasInv().begin(); iteradorMapa != (*iteradorLista)->getPalabrasInv().end(); iteradorMapa++){
             std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
-            //grafo->addVertex(iteradorMapa->first);
+            grafo->addVertex(iteradorMapa->first);
           }
       }
     }
