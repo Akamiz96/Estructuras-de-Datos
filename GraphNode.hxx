@@ -48,20 +48,20 @@ bool GraphNode<T>::findAdyacent(T destination){
 }
 template <class T>
 bool GraphNode<T>::addVertex(T destination){
-  if(this->findAdyacent(destination))
-    return true;
+  //if(this->findAdyacent(destination))
+    //return true;
 	AdyacentNode<T>* node = new AdyacentNode<T>(destination);
   this->adyacentNodes.push_back(*node);
-	std::sort(this->adyacentNodes.begin(),this->adyacentNodes.end(), compareNode);
+	//std::sort(this->adyacentNodes.begin(),this->adyacentNodes.end(), compareNode);
   return true;
 }
 template <class T>
 bool GraphNode<T>::addVertex(T destination, unsigned int nWeight){
-	if(this->findAdyacent(destination))
-    return true;
+	//if(this->findAdyacent(destination))
+    //return true;
 	AdyacentNode<T>* node = new AdyacentNode<T>(destination, nWeight);
   this->adyacentNodes.push_back(*node);
-	std::sort(this->adyacentNodes.begin(),this->adyacentNodes.end(), compareNode);
+	//std::sort(this->adyacentNodes.begin(),this->adyacentNodes.end(), compareNode);
   return true;
 }
 template <class T>

@@ -26,6 +26,7 @@ std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string 
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo );
 unsigned int calcularPuntaje(std::string palabra);
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree);
+bool palabraRelacionadas( std::string cadena1, std::string cadena2 );
 
 int main()
 {
@@ -546,25 +547,33 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
     }
     std::list<NodoVocabulario*> nodos = tree.inOrderLista();
     for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
-      std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
       if(!(*iteradorLista)->getPalabras().empty())
         for(auto& iterador : (*iteradorLista)->getPalabras()){
           std::string* palabra = new std::string(iterador.first);
-          std::cout << "\tPalabra: " << *palabra << std::endl;
           grafo->addVertex(*palabra);
         }
+        std::cout << "palabras" << std::endl;
       if(!(*iteradorLista)->getPalabrasInv().empty())
         for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
-          std::cout << "\tPalabra: " << iterador.first << std::endl;
           grafo->addVertex(iterador.first);
         }
+        std::cout << "INversas" << std::endl;
     }
+    std::cout << "/* message */" << std::endl;
     for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos = grafo->getNodes().begin(); iteradorNodos != grafo->getNodes().end(); iteradorNodos++){
-        std::cout << "Palabra Guardada: " << iteradorNodos->getData() <<std::endl;
+      std::cout << "Palabra: " << iteradorNodos->getData() << std::endl;
+        for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos2 = iteradorNodos+1; iteradorNodos2 != grafo->getNodes().end(); iteradorNodos2++){
+          if(palabraRelacionadas(iteradorNodos->getData(), iteradorNodos2->getData())){
+            std::cout << "/* message */" << std::endl;
+            grafo->addUndirectedEdge(iteradorNodos->getData(), iteradorNodos2->getData());
+          }
+        }
+        std::cout << "Plabrafin" << std::endl;
     }
+    grafo->flatCourse();
 }
 
-bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
+bool palabraRelacionadas( std::string cadena1, std::string cadena2 )
 {
     if(cadena1.empty()||cadena2.empty())
         return false;

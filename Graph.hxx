@@ -47,13 +47,13 @@ bool Graph<T>::findEdge(T& origin, T& destination){
 }
 template <class T>
 bool Graph<T>::addVertex(T nVertex){
-  for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
-    if(iterador->getData() == nVertex)
-      return false;
-  }
+  //for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
+    //if(iterador->getData() == nVertex)
+      //return false;
+  //}
   GraphNode<T>* node = new GraphNode<T>(nVertex);
   this->nodes.push_back(*node);
-	std::sort(this->nodes.begin(),this->nodes.end(), compare);
+	//std::sort(this->nodes.begin(),this->nodes.end(), compare);
   return true;
 }
 template <class T>
@@ -129,7 +129,9 @@ unsigned int Graph<T>::allWeights(){
 template <class T>
 void Graph<T>::flatCourse(){
 	for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
-		std::cout << iterador->getData() << " " << std::endl;
+		std::cout << "Padre: " << iterador->getData() << " Hijos: " << iterador->getAdyacentNodes().size() <<std::endl;
+		for(typename std::deque<AdyacentNode<T>>::iterator it = iterador->getAdyacentNodes().begin(); it != iterador->getAdyacentNodes().end(); it++)
+			std::cout << "Hijo: " << it->getData() << std::endl;
 	}
 }
 template <class T>
