@@ -560,3 +560,8 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
       }
     }
 }
+
+bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
+{
+  return palabra1.compare(palabra2) == 1;
+}
