@@ -51,9 +51,7 @@ bool Graph<T>::addVertex(T nVertex){
     if(iterador->getData() == nVertex)
       return false;
   }
-	std::cout << "/* message */" << std::endl;
   GraphNode<T>* node = new GraphNode<T>(nVertex);
-	std::cout << "Push Back" << std::endl;
   this->nodes.push_back(*node);
 	std::sort(this->nodes.begin(),this->nodes.end(), compare);
   return true;

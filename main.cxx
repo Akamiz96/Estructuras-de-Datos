@@ -36,6 +36,7 @@ int main()
   Graph<std::string>* grafo = nullptr;
   bool exit = false, init = false, init_inverse = false;
   bool init_tree = false, init_inverse_tree = false;
+  bool words_graph = false;
   std::string comando;
   do
   {
@@ -164,8 +165,9 @@ int main()
                 else if( aux == "words_graph" )
                 {
                   //TODO: funcion words_graph
+                  llenarGrafo(grafo, tree);
                 }
-                else if( aux == "letter_combinations" )
+                else if( aux == "letter_combinations" && words_graph )
                 {
                   letterCombinations( grafo, comando );
                   std::cout << std::endl;
@@ -174,7 +176,11 @@ int main()
                   exit = true;
                 else
                 {
-                  if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
+                  if( ( aux == "init" && init )
+                      || ( aux == "init_inverse" && init_inverse )
+                      || ( aux == "init_tree" && init_tree )
+                      || ( aux == "init_inverse_tree" && init_inverse_tree )
+                      || ( aux == "words_graph" && words_graph))
                   {
                     if( aux == "init" && init )
                       std::cout << "Diccionario";
@@ -182,8 +188,10 @@ int main()
                       std::cout << "Diccionario inverso";
                     else if( aux == "init_tree" && init_tree )
                       std::cout << "Diccionario Tree";
-                    else
+                    else if( aux == "words_graph" && words_graph )
                       std::cout << "Diccionario Tree inverso";
+                    else
+                      std::cout << "words_graph";
                     std::cout << " ya ha sido inicializado." << std::endl;
                     std::cout << std::endl;
                   }
@@ -543,24 +551,24 @@ unsigned int calcularPuntaje(std::string palabra)
 }
 
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
-    if(grafo == nullptr){
-      grafo = new Graph<std::string>();
-      std::list<NodoVocabulario*> nodos = tree.inOrderLista();
-      for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
-        std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
-        if(!(*iteradorLista)->getPalabras().empty())
-          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabras().begin(); iteradorMapa != (*iteradorLista)->getPalabras().end(); iteradorMapa++){
-            std::string* palabra = new std::string(iteradorMapa->first);
-            std::cout << "\tPalabra: " << *palabra << std::endl;
-            grafo->addVertex(*palabra);
-          }
-        if(!(*iteradorLista)->getPalabrasInv().empty())
-          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabrasInv().begin(); iteradorMapa != (*iteradorLista)->getPalabrasInv().end(); iteradorMapa++){
-            std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
-            grafo->addVertex(iteradorMapa->first);
-          }
+  if(grafo == nullptr){
+    grafo = new Graph<std::string>();
+  }
+  std::list<NodoVocabulario*> nodos = tree.inOrderLista();
+  for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
+    if(!(*iteradorLista)->getPalabras().empty())
+      for(auto& iterador : (*iteradorLista)->getPalabras()){
+        std::string* palabra = new std::string(iterador.first);
+        grafo->addVertex(*palabra);
       }
-    }
+    if(!(*iteradorLista)->getPalabrasInv().empty())
+      for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
+        grafo->addVertex(iterador.first);
+      }
+  }
+  for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos = grafo->getNodes().begin(); iteradorNodos != grafo->getNodes().end(); iteradorNodos++){
+      std::cout << "Palabra Guardada: " << iteradorNodos->getData() <<std::endl;
+  }
 }
 
 void letterCombinations( Graph<std::string>* grafo, std::string comando )
@@ -590,4 +598,30 @@ bool palabraRelacionadasComodin( std::string palabra1, std::string palabra2 )
 		return true;
 	else
 		return false;
+}
+
+bool palabraRelacionadas( std::string cadena1, std::string cadena2 )
+{
+  if(cadena1.empty()||cadena2.empty())
+    return false;
+  if(cadena1.size()==cadena2.size())
+  {
+    std::string palabraMenor;
+    std::string palabraMayor;
+    palabraMayor=cadena1;
+    palabraMenor=cadena2;
+    int contDiferencia=0;
+    std::string::iterator itPalabraMenor=palabraMenor.begin();
+    for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
+    {
+      if(*itPalabraMayor!=*itPalabraMenor)
+        contDiferencia++;
+      itPalabraMenor++;
+    }
+  if(contDiferencia<=1)
+    return true;
+  else
+    return false;
+  }
+  return false;
 }
