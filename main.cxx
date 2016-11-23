@@ -159,29 +159,37 @@ int main()
                     std::cout << "El diccionario no ha sido inicializado con el comando init_inverse_tree" << std::endl;
                   std::cout << std::endl;
                 }
-                  else if( aux == "exit" )
-                    exit = true;
+                else if( aux == "words_graph" )
+                {
+                  //TODO: funcion words_graph
+                }
+                else if( aux == "letter_combinations" )
+                {
+                  //TODO: funcion letter_combinations
+                }
+                else if( aux == "exit" )
+                  exit = true;
+                else
+                {
+                  if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
+                  {
+                    if( aux == "init" && init )
+                      std::cout << "Diccionario";
+                    else if( aux == "init_inverse" && init_inverse )
+                      std::cout << "Diccionario inverso";
+                    else if( aux == "init_tree" && init_tree )
+                      std::cout << "Diccionario Tree";
+                    else
+                      std::cout << "Diccionario Tree inverso";
+                    std::cout << " ya ha sido inicializado." << std::endl;
+                    std::cout << std::endl;
+                  }
                   else
                   {
-                    if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
-                    {
-                      if( aux == "init" && init )
-                        std::cout << "Diccionario";
-                      else if( aux == "init_inverse" && init_inverse )
-                        std::cout << "Diccionario inverso";
-                      else if( aux == "init_tree" && init_tree )
-                        std::cout << "Diccionario Tree";
-                      else
-                        std::cout << "Diccionario Tree inverso";
-                      std::cout << " ya ha sido inicializado." << std::endl;
-                      std::cout << std::endl;
-                    }
-                    else
-                    {
-                      std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                      std::cout << std::endl;
-                    }
+                    std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                    std::cout << std::endl;
                   }
+                }
             }
           }
         }
