@@ -26,6 +26,7 @@ class BinaryTreeAVL{
 		void posOrder();
 		void levelOrder();
 		void balanceCheck(BinaryNodeAVL* father);
+		std::list<NodoVocabulario*> inOrderLista();
 	private:
 		bool eraseRoot();
 };

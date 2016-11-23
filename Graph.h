@@ -17,13 +17,13 @@ public:
 
   GraphNode<T>* findVertex(T vertex);
   bool findEdge(T& origin, T& destination);
-  bool addVertex(T& nVertex);
-  bool addEdge(T& origin, T& destination);
-  bool addEdge(T& origin, T& destination, unsigned int nWeight);
-  bool addUndirectedEdge(T& origin, T& destination);
-  bool addUndirectedEdge(T& origin, T& destination, unsigned int nWeight);
-  void removeVertex(T& vertex);
-  void removeEdge(T& origin, T& destination);
+  bool addVertex(T nVertex);
+  bool addEdge(T origin, T destination);
+  bool addEdge(T origin, T destination, unsigned int nWeight);
+  bool addUndirectedEdge(T origin, T destination);
+  bool addUndirectedEdge(T origin, T destination, unsigned int nWeight);
+  void removeVertex(T vertex);
+  void removeEdge(T origin, T destination);
   unsigned int allWeights();
 
   void flatCourse();

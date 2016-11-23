@@ -11,11 +11,11 @@ GraphNode<T>::GraphNode(){
 
 }
 template <class T>
-GraphNode<T>::GraphNode(T& nData){
+GraphNode<T>::GraphNode(T nData){
   this->data = nData;
 }
 template <class T>
-GraphNode<T>::GraphNode(T& nData, std::deque<AdyacentNode<T>>& NAdyacentNodes){
+GraphNode<T>::GraphNode(T nData, std::deque<AdyacentNode<T>> NAdyacentNodes){
   this->adyacentNodes = NAdyacentNodes;
 }
 template <class T>
@@ -31,15 +31,15 @@ std::deque<AdyacentNode<T>>& GraphNode<T>::getAdyacentNodes(){
   return this->adyacentNodes;
 }
 template <class T>
-void GraphNode<T>::setData(T& nData){
+void GraphNode<T>::setData(T nData){
   this->data = nData;
 }
 template <class T>
-void GraphNode<T>::setAdyacentNodes(std::deque<AdyacentNode<T>>& nNodes){
+void GraphNode<T>::setAdyacentNodes(std::deque<AdyacentNode<T>> nNodes){
   this->adyacentNodes = nNodes;
 }
 template <class T>
-bool GraphNode<T>::findAdyacent(T& destination){
+bool GraphNode<T>::findAdyacent(T destination){
   for(typename std::deque<AdyacentNode<T>>::iterator iterador = this->adyacentNodes.begin(); iterador != this->adyacentNodes.end(); iterador++){
     if(iterador->getData() == destination)
       return true;

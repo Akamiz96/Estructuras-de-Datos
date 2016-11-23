@@ -36,6 +36,7 @@ class BinaryNodeAVL{
 		void levelOrder(std::list<BinaryNodeAVL*> & List);
 		void descendants();
 		bool balanceCheck(BinaryNodeAVL* father, BinaryNodeAVL*& root);
+		void inOrderLista(std::list<NodoVocabulario*>& result);
 	private:
 		BinaryNodeAVL* rightRotation();
 		BinaryNodeAVL* leftRotation();

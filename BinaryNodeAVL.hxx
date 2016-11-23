@@ -326,3 +326,10 @@ BinaryNodeAVL* BinaryNodeAVL::balance(short int type){
 		return nullptr;
 	}
 }
+void BinaryNodeAVL::inOrderLista(std::list<NodoVocabulario*>& result){
+	if(this->left != nullptr)
+		this->left->inOrderLista(result);
+	result.push_back(&(this->getData()));
+	if(this->right != nullptr)
+		this->right->inOrderLista(result);
+}
