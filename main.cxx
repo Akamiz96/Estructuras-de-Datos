@@ -6,6 +6,7 @@
 #include "Arbol.h"
 #include "BinaryTreeAVL.h"
 #include "NodoVocabulario.h"
+#include "Graph.h"
 
 struct Arboles
 {
@@ -24,11 +25,13 @@ void insertarPalabraXLetras(std::map<char, Arboles>&, std::string, bool );
 std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string prefijo );
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo );
 unsigned int calcularPuntaje(std::string palabra);
+void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree);
 
 int main()
 {
   BinaryTreeAVL tree;
   std::map<char, Arboles> tree_letras;
+  Graph<std::string>* grafo = nullptr;
   bool exit = false, init = false, init_inverse = false;
   bool init_tree = false, init_inverse_tree = false;
   std::string comando;
@@ -158,29 +161,37 @@ int main()
                     std::cout << std::endl;
                   }
                   else
-                    if( aux == "exit" )
-                      exit = true;
+                    if( aux == "words_graph")
+                    {
+                      std::cout << "/* message */" << std::endl;
+                      llenarGrafo(grafo,tree);
+                    }
                     else
                     {
-                      if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
-                      {
-                        if( aux == "init" && init )
-                          std::cout << "Diccionario";
-                        else
-                          if( aux == "init_inverse" && init_inverse )
-                            std::cout << "Diccionario inverso";
-                          else
-                            if( aux == "init_tree" && init_tree )
-                              std::cout << "Diccionario Tree";
-                            else
-                              std::cout << "Diccionario Tree inverso";
-                        std::cout << " ya ha sido inicializado." << std::endl;
-                        std::cout << std::endl;
-                      }
+                      if( aux == "exit" )
+                        exit = true;
                       else
                       {
-                        std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
-                        std::cout << std::endl;
+                        if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
+                        {
+                          if( aux == "init" && init )
+                            std::cout << "Diccionario";
+                          else
+                            if( aux == "init_inverse" && init_inverse )
+                              std::cout << "Diccionario inverso";
+                            else
+                              if( aux == "init_tree" && init_tree )
+                                std::cout << "Diccionario Tree";
+                              else
+                                std::cout << "Diccionario Tree inverso";
+                          std::cout << " ya ha sido inicializado." << std::endl;
+                          std::cout << std::endl;
+                        }
+                        else
+                        {
+                          std::cout << "Error comando inexistente, teclee \"ayuda\" para ver una lista de comandos" << std::endl;
+                          std::cout << std::endl;
+                        }
                       }
                     }
             }
@@ -321,9 +332,9 @@ void insertarPalabra(BinaryTreeAVL& tree, std::string palabra, bool tipo){
       NodoVocabulario* nodo = new NodoVocabulario(palabra[0]);
       tree.insert(*nodo);
       if(tipo)
-        nodo->insertarPalabra(palabra);
+        insertarPalabra(tree,palabra,tipo);
       else
-        nodo->insertarPalabraInv(palabra);
+        insertarPalabra(tree,palabra,tipo);
     }
   }
   else{
@@ -516,4 +527,23 @@ unsigned int calcularPuntaje(std::string palabra)
       puntaje = puntaje + 10;
   }
   return puntaje;
+}
+
+void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
+    if(grafo == nullptr){
+      std::list<NodoVocabulario*> nodos = tree.inOrderLista();
+      for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
+        std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
+        if(!(*iteradorLista)->getPalabras().empty())
+          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabras().begin(); iteradorMapa != (*iteradorLista)->getPalabras().end(); iteradorMapa++){
+            std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
+            //grafo->addVertex(iteradorMapa->first);
+          }
+        if(!(*iteradorLista)->getPalabrasInv().empty())
+          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabrasInv().begin(); iteradorMapa != (*iteradorLista)->getPalabrasInv().end(); iteradorMapa++){
+            std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
+            //grafo->addVertex(iteradorMapa->first);
+          }
+      }
+    }
 }

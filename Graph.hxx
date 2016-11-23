@@ -46,7 +46,7 @@ bool Graph<T>::findEdge(T& origin, T& destination){
   return false;
 }
 template <class T>
-bool Graph<T>::addVertex(T& nVertex){
+bool Graph<T>::addVertex(T nVertex){
   for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
     if(iterador->getData() == nVertex)
       return false;
@@ -57,7 +57,7 @@ bool Graph<T>::addVertex(T& nVertex){
   return true;
 }
 template <class T>
-bool Graph<T>::addEdge(T& origin, T& destination){
+bool Graph<T>::addEdge(T origin, T destination){
   GraphNode<T>* nodeOrigin = this->findVertex(origin);
   GraphNode<T>* nodeDestination = this->findVertex(destination);
   if(nodeOrigin != nullptr && nodeDestination != nullptr){
@@ -66,7 +66,7 @@ bool Graph<T>::addEdge(T& origin, T& destination){
   return false;
 }
 template <class T>
-bool Graph<T>::addEdge(T& origin, T& destination, unsigned int nWeight){
+bool Graph<T>::addEdge(T origin, T destination, unsigned int nWeight){
 	GraphNode<T>* nodeOrigin = this->findVertex(origin);
   GraphNode<T>* nodeDestination = this->findVertex(destination);
   if(nodeOrigin != nullptr && nodeDestination != nullptr){
@@ -75,7 +75,7 @@ bool Graph<T>::addEdge(T& origin, T& destination, unsigned int nWeight){
   return false;
 }
 template <class T>
-bool Graph<T>::addUndirectedEdge(T& origin, T& destination){
+bool Graph<T>::addUndirectedEdge(T origin, T destination){
 	GraphNode<T>* nodeOrigin = this->findVertex(origin);
   GraphNode<T>* nodeDestination = this->findVertex(destination);
 	if(nodeOrigin != nullptr && nodeDestination != nullptr){
@@ -86,7 +86,7 @@ bool Graph<T>::addUndirectedEdge(T& origin, T& destination){
 	return false;
 }
 template <class T>
-bool Graph<T>::addUndirectedEdge(T& origin, T& destination, unsigned int nWeight){
+bool Graph<T>::addUndirectedEdge(T origin, T destination, unsigned int nWeight){
 	GraphNode<T>* nodeOrigin = this->findVertex(origin);
   GraphNode<T>* nodeDestination = this->findVertex(destination);
 	if(nodeOrigin != nullptr && nodeDestination != nullptr){
@@ -97,7 +97,7 @@ bool Graph<T>::addUndirectedEdge(T& origin, T& destination, unsigned int nWeight
 	return false;
 }
 template <class T>
-void Graph<T>::removeVertex(T& vertex){
+void Graph<T>::removeVertex(T vertex){
 	for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
 		if(iterador->getData() == vertex){
 				for(typename std::deque<GraphNode<T>>::iterator iterador = this->nodes.begin(); iterador != this->nodes.end(); iterador++){
@@ -109,7 +109,7 @@ void Graph<T>::removeVertex(T& vertex){
 	}
 }
 template <class T>
-void Graph<T>::removeEdge(T& origin, T& destination){
+void Graph<T>::removeEdge(T origin, T destination){
   GraphNode<T>* nodeOrigin = this->findVertex(origin);
   GraphNode<T>* nodeDestination = this->findVertex(destination);
   if(nodeOrigin != nullptr && nodeDestination != nullptr){

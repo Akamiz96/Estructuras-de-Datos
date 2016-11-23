@@ -106,7 +106,7 @@ void BinaryTreeAVL::updateHeight(){
 }
 void BinaryTreeAVL::inOrder(){
 	if(this->root->getLeft() != nullptr)
-	this->root->getLeft()->inOrder();
+		this->root->getLeft()->inOrder();
 	std::cout << this->root->getData().getLetra() << std::endl;
 	if(this->root->getRight() != nullptr)
 		this->root->getRight()->inOrder();
@@ -151,4 +151,13 @@ void BinaryTreeAVL::balanceCheck(BinaryNodeAVL* father){
 		}
 	}
 	this->updateHeight();
+}
+std::list<NodoVocabulario*> BinaryTreeAVL::inOrderLista(){
+	std::list<NodoVocabulario*> *result = new std::list<NodoVocabulario*>();
+	if(this->root->getLeft() != nullptr)
+		this->root->getLeft()->inOrderLista(*result);
+	result->push_back(&(this->root->getData()));
+	if(this->root->getRight() != nullptr)
+		this->root->getRight()->inOrderLista(*result);
+	return *result;
 }
