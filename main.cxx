@@ -569,16 +569,17 @@ bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
     {
         std::string palabraMenor;
         std::string palabraMayor;
-        std::string aux;
         palabraMayor=cadena1;
         palabraMenor=cadena2;
+        int contDiferencia=0;
         std::string::iterator itPalabraMenor=palabraMenor.begin();
         for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
         {
-            aux.push_back(*itPalabraMayor);
+            if(*itPalabraMayor!=*itPalabraMenor)
+                contDiferencia++;
             itPalabraMenor++;
         }
-        if(aux==cadena2)
+        if(contDiferencia<=1)
             return true;
         else
             return false;
