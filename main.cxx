@@ -162,6 +162,7 @@ int main()
                 else if( aux == "words_graph" )
                 {
                   //TODO: funcion words_graph
+                  llenarGrafo(grafo, tree);
                 }
                 else if( aux == "letter_combinations" )
                 {
@@ -546,15 +547,15 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
       for(typename std::list<NodoVocabulario*>::iterator iteradorLista = nodos.begin(); iteradorLista != nodos.end(); iteradorLista++){
         std::cout << "Nodo: " << (*iteradorLista)->getLetra()<< std::endl;
         if(!(*iteradorLista)->getPalabras().empty())
-          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabras().begin(); iteradorMapa != (*iteradorLista)->getPalabras().end(); iteradorMapa++){
-            std::string* palabra = new std::string(iteradorMapa->first);
+          for(auto& iterador : (*iteradorLista)->getPalabras()){
+            std::string* palabra = new std::string(iterador.first);
             std::cout << "\tPalabra: " << *palabra << std::endl;
             grafo->addVertex(*palabra);
           }
         if(!(*iteradorLista)->getPalabrasInv().empty())
-          for(typename std::map<std::string, int>::iterator iteradorMapa = (*iteradorLista)->getPalabrasInv().begin(); iteradorMapa != (*iteradorLista)->getPalabrasInv().end(); iteradorMapa++){
-            std::cout << "\tPalabra: " << iteradorMapa->first << std::endl;
-            grafo->addVertex(iteradorMapa->first);
+          for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
+            std::cout << "\tPalabra: " << iterador.first << std::endl;
+            grafo->addVertex(iterador.first);
           }
       }
     }
