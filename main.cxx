@@ -26,6 +26,8 @@ std::list< std::string > prefix( std::map< char, Arboles > treeDic, std::string 
 std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::string sufijo );
 unsigned int calcularPuntaje(std::string palabra);
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree);
+void letterCombinations( Graph<std::string>* grafo, std::string comando );
+bool palabraRelacionadasComodin( std::string, std::string );
 
 int main()
 {
@@ -165,7 +167,8 @@ int main()
                 }
                 else if( aux == "letter_combinations" )
                 {
-                  //TODO: funcion letter_combinations
+                  letterCombinations( grafo, comando );
+                  std::cout << std::endl;
                 }
                 else if( aux == "exit" )
                   exit = true;
@@ -560,7 +563,31 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
     }
 }
 
-bool palabraRelacionadas( std::string palabra1, std::string palabra2 )
+void letterCombinations( Graph<std::string>* grafo, std::string comando )
 {
-  return palabra1.compare(palabra2) == 1;
+  std::string palabra, linea;
+  palabra = comando.substr( comando.find( " " ) + 1 );
+  std::deque< GraphNode< std::string > > lista = grafo->getNodes();
+  for( auto& elemento : lista )
+  {
+    if( palabraRelacionadasComodin( palabra, elemento.getData() ) )
+    {
+      std::cout << elemento.getData() << " Longitud: " << ( ( elemento.getData() ).size() - 1 ) << " Puntaje: " << calcularPuntaje( elemento.getData() ) << std::endl;
+    }
+  }
+}
+
+bool palabraRelacionadasComodin( std::string palabra1, std::string palabra2 )
+{
+	if( palabra1.size() != palabra2.size() )
+		return false;
+	int match = 0;
+	for( int i = 0; i < palabra1.size(); i++ )
+		if( palabra1[i] != '?' && palabra2[i] != '?' )
+  		if( palabra1[i] != palabra2[i] )
+				match++;
+	if( match < 2 )
+		return true;
+	else
+		return false;
 }
