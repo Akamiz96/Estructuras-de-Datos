@@ -27,6 +27,8 @@ std::list< std::string > sufix( std::map< char, Arboles > tree_letras, std::stri
 unsigned int calcularPuntaje(std::string palabra);
 void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree);
 bool palabraRelacionadas( std::string cadena1, std::string cadena2 );
+void letterCombinations( Graph<std::string>* grafo, std::string comando );
+bool palabraRelacionadasComodin( std::string, std::string );
 
 int main()
 {
@@ -35,6 +37,7 @@ int main()
   Graph<std::string>* grafo = nullptr;
   bool exit = false, init = false, init_inverse = false;
   bool init_tree = false, init_inverse_tree = false;
+  bool words_graph = false;
   std::string comando;
   do
   {
@@ -164,16 +167,22 @@ int main()
                 {
                   //TODO: funcion words_graph
                   llenarGrafo(grafo, tree);
+                  words_graph = true;
                 }
-                else if( aux == "letter_combinations" )
+                else if( aux == "letter_combinations" && words_graph )
                 {
-                  //TODO: funcion letter_combinations
+                  letterCombinations( grafo, comando );
+                  std::cout << std::endl;
                 }
                 else if( aux == "exit" )
                   exit = true;
                 else
                 {
-                  if( ( aux == "init" && init ) || ( aux == "init_inverse" && init_inverse ) || ( aux == "init_tree" && init_tree ) || ( aux == "init_inverse_tree" && init_inverse_tree ) )
+                  if( ( aux == "init" && init )
+                      || ( aux == "init_inverse" && init_inverse )
+                      || ( aux == "init_tree" && init_tree )
+                      || ( aux == "init_inverse_tree" && init_inverse_tree )
+                      || ( aux == "words_graph" && words_graph))
                   {
                     if( aux == "init" && init )
                       std::cout << "Diccionario";
@@ -181,8 +190,10 @@ int main()
                       std::cout << "Diccionario inverso";
                     else if( aux == "init_tree" && init_tree )
                       std::cout << "Diccionario Tree";
-                    else
+                    else if( aux == "words_graph" && words_graph )
                       std::cout << "Diccionario Tree inverso";
+                    else
+                      std::cout << "words_graph";
                     std::cout << " ya ha sido inicializado." << std::endl;
                     std::cout << std::endl;
                   }
@@ -552,49 +563,72 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
           std::string* palabra = new std::string(iterador.first);
           grafo->addVertex(*palabra);
         }
-        std::cout << "palabras" << std::endl;
       if(!(*iteradorLista)->getPalabrasInv().empty())
         for(auto& iterador : (*iteradorLista)->getPalabrasInv()){
           grafo->addVertex(iterador.first);
         }
-        std::cout << "INversas" << std::endl;
     }
-    std::cout << "/* message */" << std::endl;
     for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos = grafo->getNodes().begin(); iteradorNodos != grafo->getNodes().end(); iteradorNodos++){
-      std::cout << "Palabra: " << iteradorNodos->getData() << std::endl;
         for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos2 = iteradorNodos+1; iteradorNodos2 != grafo->getNodes().end(); iteradorNodos2++){
           if(palabraRelacionadas(iteradorNodos->getData(), iteradorNodos2->getData())){
-            std::cout << "/* message */" << std::endl;
             grafo->addUndirectedEdge(iteradorNodos->getData(), iteradorNodos2->getData());
           }
         }
-        std::cout << "Plabrafin" << std::endl;
     }
-    grafo->flatCourse();
+    std::cout << "Grafo Cargado." << std::endl;
+}
+
+void letterCombinations( Graph<std::string>* grafo, std::string comando )
+{
+  std::string palabra, linea;
+  palabra = comando.substr( comando.find( " " ) + 1 );
+  std::deque< GraphNode< std::string > > lista = grafo->getNodes();
+  for( auto& elemento : lista )
+  {
+    if( palabraRelacionadasComodin( palabra, elemento.getData() ) )
+    {
+      std::cout << elemento.getData() << " Longitud: " << ( ( elemento.getData() ).size() - 1 ) << " Puntaje: " << calcularPuntaje( elemento.getData() ) << std::endl;
+    }
+  }
+}
+
+bool palabraRelacionadasComodin( std::string palabra1, std::string palabra2 )
+{
+	if( palabra1.size() != palabra2.size() )
+		return false;
+	int match = 0;
+	for( int i = 0; i < palabra1.size(); i++ )
+		if( palabra1[i] != '?' && palabra2[i] != '?' )
+  		if( palabra1[i] != palabra2[i] )
+				match++;
+	if( match < 2 )
+		return true;
+	else
+		return false;
 }
 
 bool palabraRelacionadas( std::string cadena1, std::string cadena2 )
 {
-    if(cadena1.empty()||cadena2.empty())
-        return false;
-    if(cadena1.size()==cadena2.size())
-    {
-        std::string palabraMenor;
-        std::string palabraMayor;
-        palabraMayor=cadena1;
-        palabraMenor=cadena2;
-        int contDiferencia=0;
-        std::string::iterator itPalabraMenor=palabraMenor.begin();
-        for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
-        {
-            if(*itPalabraMayor!=*itPalabraMenor)
-                contDiferencia++;
-            itPalabraMenor++;
-        }
-        if(contDiferencia<=1)
-            return true;
-        else
-            return false;
-    }
+  if(cadena1.empty()||cadena2.empty())
     return false;
+  if(cadena1.size()==cadena2.size())
+  {
+    std::string palabraMenor;
+    std::string palabraMayor;
+    palabraMayor=cadena1;
+    palabraMenor=cadena2;
+    int contDiferencia=0;
+    std::string::iterator itPalabraMenor=palabraMenor.begin();
+    for(std::string::iterator itPalabraMayor=palabraMayor.begin();itPalabraMayor!=palabraMayor.end();itPalabraMayor++)
+    {
+      if(*itPalabraMayor!=*itPalabraMenor)
+        contDiferencia++;
+      itPalabraMenor++;
+    }
+  if(contDiferencia<=1)
+    return true;
+  else
+    return false;
+  }
+  return false;
 }
