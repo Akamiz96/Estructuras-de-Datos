@@ -567,7 +567,7 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
       }
   }
   std::cout << std::endl << "Nodos Cargados..." << std::endl;
-  std::cout << "Cargando." << std::endl;
+  std::cout << "Cargando..." << std::endl;
   for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos = grafo->getNodes().begin(); iteradorNodos != grafo->getNodes().end(); iteradorNodos++){
     for(typename std::deque<GraphNode<std::string>>::iterator iteradorNodos2 = iteradorNodos+1; iteradorNodos2 != grafo->getNodes().end(); iteradorNodos2++){
       if(palabraRelacionadas(iteradorNodos->getData(), iteradorNodos2->getData())){
@@ -576,6 +576,7 @@ void llenarGrafo(Graph<std::string>* grafo, BinaryTreeAVL& tree){
     }
   }
   std::cout << "Grafo Cargado." << std::endl;
+  std::cout << "Nodos: " << grafo->getNodes().size() << std::endl;
 }
 
 void letterCombinations( Graph<std::string>* grafo, std::string comando, BinaryTreeAVL& tree)
@@ -583,19 +584,12 @@ void letterCombinations( Graph<std::string>* grafo, std::string comando, BinaryT
   std::string palabra, linea;
   palabra = comando.substr( comando.find( " " ) + 1 );
   std::deque< GraphNode< std::string > > lista = grafo->getNodes();
-  if(scorePalabra(tree, palabra) > 0)
+  for( auto& elemento : lista )
   {
-    for( auto& elemento : lista )
+    if( palabraRelacionadasComodin( palabra, elemento.getData() ) )
     {
-      if( palabraRelacionadasComodin( palabra, elemento.getData() ) )
-      {
-        std::cout << elemento.getData() << " Longitud: " << ( ( elemento.getData() ).size() - 1 ) << " Puntaje: " << calcularPuntaje( elemento.getData() ) << std::endl;
-      }
+      std::cout << elemento.getData() << " Longitud: " << ( ( elemento.getData() ).size() ) << " Puntaje: " << calcularPuntaje( elemento.getData() ) << std::endl;
     }
-  }
-  else
-  {
-    std::cout << "Palabra ingresada no valida." << std::endl;
   }
 }
 
